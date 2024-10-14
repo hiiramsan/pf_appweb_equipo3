@@ -18,80 +18,6 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-
-/* Navbar */
-nav {
-    background-color: var(--gray-color);
-    height: 6em;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10%;
-}
-
-.logo img {
-    width: 10em;
-    height: auto;
-}
-
-.nav-links {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    margin: 0 1em;
-    transition: 0.3s ease;
-}
-
-.nav-links a {
-    display: flex;
-    align-items: center;
-    background-color: var(--dark-color);
-    padding: 0.8em;
-    margin: 0 0.5em;
-    border-radius: 0.5em;
-}
-
-.nav-links li svg {
-    fill: white;
-    width: 2em;
-    height:auto;
-    transition: 0.3s ease;
-}
-
-.nav-links li a:hover svg { 
-    fill: var(--red-color);
-}
-.auth-links {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-}
-
-.auth-links a {
-    background-color: var(--red-color);
-    padding: 0.7em 1.2em;
-    border-radius: 0.3em;
-    text-align: center;
-    color: #fff;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
-
-.auth-links a:hover {
-    opacity: 0.8;
-}
-.nav-links ul {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-}
-
-
 /* Main and Aside */
 .content-wrapper {
     display: flex;
@@ -139,6 +65,7 @@ a.create-post {
     gap: 1em;
     width: 100%;
     cursor: pointer;
+    text-decoration: none;
 }
 
 a.create-post:hover {

@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --dark-color: #212121;
+    --gray-color: #2F2F2F;
+    --red-color: #E94F37;
+    --light-gray-color: #B2ABAB;
+}
+
+body {
+    background-color: var(--dark-color);
+
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2em;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+}
+
+.top a svg {
+    width: 2em;
+    height: auto;
+    fill: #fff;
+}
+
+main {
+    min-height: 70vh;
+    margin: 0 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.option-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    padding: 1em;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    float: right;
+    gap: 1em;
+    
+}
+
+.option-btns svg {
+    width: 1.5em;
+    height: auto;
+    fill: #fff;
+}
+
+.option-btns a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.option-btns .option {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.3em;
+    padding: 0 1em;
+    height: 2.5em;
+    border-radius: 0.5em;
+    background-color: var(--gray-color);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    font-size: 1em;
+    border: none;
+}
+
+input#image-upload {
+    display: none;
+}
+
+.option-btns #category-select {
+    background-color: #3D55D7;
+}
+
+.option-btns #post {
+    background-color: var(--red-color);
+}
+
+.entry {
+    display: flex;
+    flex-direction: column;
+    border-top: 0.3em solid var(--gray-color);
+    gap: 2em;
+}
+
+.entry input {
+    margin-top: 1em;
+    outline: none;
+    color: #fff;
+    border: none;
+    background: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 1em;
+}
+
+.entry input#title {
+    font-size: 2em;
+    font-weight: 700;
+    margin-left: 0;
+}
+
+.entry textarea {
+    padding: 1em 0;
+    outline: none;
+    color: #fff;
+    border: none;
+    background: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 1em;
+    min-height: 10em;
+    resize: vertical;
+}
