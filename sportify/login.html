@@ -10,19 +10,30 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="img/tabicon.png" type="image/x-icon">
 </head>
-<body class="login-body">
-    <div class="login-container">
-        <form id="login-form" method="post" action="inicio.php">
-          <input type="text" name= "username" placeholder="Usuario" required>
-          <input type="password" name="password" placeholder="Contraseña" required>
-          <button type="submit" name="iniciar">Iniciar Sesion  </button><!-- Botón para iniciar sesión -->
-        </form>
-        <?php
-            include("inicio.php");
-        ?>
-        <p>No tienes cuenta? <a href="registro.html" id="crear-cuenta">Crear cuenta</a></p>
-      </div>
-      
+<body>
+  <div  class="contenedor01">
+    <section  class="titulo">
+        <img src="./img/sportify-logo.png" alt="">
+        <p>Welcome back!</p>
+        <h1>Log in</h1>
+    </section>
+
+
+    <form action="">
+      <label for="email">Email</label>
+      <input type="email" placeholder="example@mail.com" required>
+
+      <label for="password">Pasword</label>
+      <input type="password" placeholder="Write a secret password" required>
+
+      <input type="submit" value="Log in">
+      <p>Don’t have an account? <a href="registro.html">Sign Up, It’s Free!</a></p>
+    </form>
+    
+  </div>
+  <div class="contenedor02">
+    <img src="./img/login.jpeg" alt="">
+  </div>
   
 </body>
 </html>

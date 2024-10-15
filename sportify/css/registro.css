@@ -1,0 +1,70 @@
+body{
+    display: flex;
+    gap: 6%;
+}
+.imagen01{
+    position: relative;
+}
+.imagen01 img{
+    margin: 2rem 2rem;
+    border-radius: 1rem;
+    width: 499px;
+    height: 833px;
+    
+}
+.imagen02 img{
+    position: absolute;
+  top: 6rem;  /* Ajusta para mover la imagen */
+  left: 11%; /* Ajusta para mover la imagen */
+  width: 192px; /* Ajusta el tamaño de la imagen superpuesta */
+  height: 70px;
+  z-index: 1; /* Asegura que la imagen se coloque encima */
+}
+
+.content02 h1{
+    font-size: 40px;
+    color: #fff;
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+}
+.content02 h1 span{
+    color: red;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    font-family: inter;
+    font-size: 24px;
+    color: #fff;
+}
+form label{
+    font-family: inter;
+    text-align: left;
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  form input{
+    border-color: #fff;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    width:35rem;
+    font-size: 24px;
+    color: #fff;
+    background-color: #2f2f2f;
+    margin-bottom: 2.5rem;
+  }
+  form input[type="submit"]{
+    align-items: center;
+    background-color: #e94f37;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  form p{
+    font-family: inter;
+    font-size: 24px;
+    color: #fff;
+  }
+  form a{
+    color: red;
+  }
