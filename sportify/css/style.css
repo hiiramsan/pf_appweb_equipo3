@@ -17,8 +17,6 @@ body {
     background-color: var(--dark-color);
     font-family: 'Inter', sans-serif;
 }
-
-/* Main and Aside */
 .content-wrapper {
     display: flex;
     gap: 0em;
@@ -170,7 +168,6 @@ a.create-post:hover {
 .stats-container {
     display: flex;
     flex-direction: row;
-    gap: 1em;
 }
 
 .stat {
@@ -180,16 +177,16 @@ a.create-post:hover {
     align-items: center;
     padding: 0.5em 1em;
     border-radius: 0.5em;
-    background-color: var(--dark-color);
 }
 
 .stat svg {
-    width: 1.2em;
+    width: 1.5em;
     fill: #fff;
 }
 
 .sport svg {
-    width: 1.5em;
+    width: 1.7em;
+    fill: var(--red-color);
 }
 
 main a {

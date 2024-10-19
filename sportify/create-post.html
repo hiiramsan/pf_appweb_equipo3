@@ -292,13 +292,18 @@
             </label>
             <input id="image-upload" type="file" accept="image/*" />
 
-            <select id="category-select" class="option option-select">
-                <option value="" disabled selected>Category</option>
-                <option value="tech">Soccer</option>
-                <option value="lifestyle">Basketball</option>
-                <option value="education">Baseball</option>
-                <option value="sports">Tennis</option>
-            </select>
+            <div class="select-wrapper">
+              <select name="sport" id="sport">
+                  <option value="" disabled selected>Select a sport</option>
+                  <option value="soccer">⚽ Soccer</option>
+                  <option value="basketball">🏀 Basketball</option>
+                  <option value="baseball">⚾ Baseball</option>
+                  <option value="american-football">🏈 American Football</option>
+                  <option value="tennis">🎾 Tennis</option>
+                  <option value="volleyball">🏐 Volleyball</option>
+              </select>
+          </div>
+
             <button class="option" id="post">
                 Post
             </button>
