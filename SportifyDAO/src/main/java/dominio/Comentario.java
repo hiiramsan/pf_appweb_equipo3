@@ -5,6 +5,8 @@
 package dominio;
 
 import java.util.Calendar;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -13,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,7 +28,7 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idComentario;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar fechaHora;
 
     @Column(nullable = false, length = 255)
@@ -38,6 +41,14 @@ public class Comentario {
     @ManyToOne
     @JoinColumn(name = "id_comentado", foreignKey = @ForeignKey(name = "fk_comentado_comentario"))
     private Usuario comentado;
+
+    // Relación recursiva para respuestas
+    @ManyToOne
+    @JoinColumn(name = "id_comentario_padre", foreignKey = @ForeignKey(name = "fk_comentario_padre"))
+    private Comentario comentarioPadre;
+
+    @OneToMany(mappedBy = "comentarioPadre", cascade = CascadeType.ALL)
+    private List<Comentario> respuestas;
 
     public int getIdComentario() {
         return idComentario;
@@ -79,5 +90,19 @@ public class Comentario {
         this.comentado = comentado;
     }
 
-    
+    public Comentario getComentarioPadre() {
+        return comentarioPadre;
+    }
+
+    public void setComentarioPadre(Comentario comentarioPadre) {
+        this.comentarioPadre = comentarioPadre;
+    }
+
+    public List<Comentario> getRespuestas() {
+        return respuestas;
+    }
+
+    public void setRespuestas(List<Comentario> respuestas) {
+        this.respuestas = respuestas;
+    }
 }

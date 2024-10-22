@@ -4,12 +4,9 @@
  */
 package dominio;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Estado")
@@ -22,7 +19,15 @@ public class Estado {
     @Column(nullable = false, unique = true)
     private String nombre;
 
-    // Getters and Setters
+    // Relación uno a muchos con Municipio
+    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Municipio> municipios = new ArrayList<>();
+
+    // Relación uno a muchos con Usuario (opcional)
+    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Usuario> usuarios = new ArrayList<>(); // Si necesitas la relación
+
+    // Getters y Setters
     public int getIdEstado() {
         return idEstado;
     }
@@ -38,5 +43,20 @@ public class Estado {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
+    public List<Municipio> getMunicipios() {
+        return municipios;
+    }
+
+    public void setMunicipios(List<Municipio> municipios) {
+        this.municipios = municipios;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 }

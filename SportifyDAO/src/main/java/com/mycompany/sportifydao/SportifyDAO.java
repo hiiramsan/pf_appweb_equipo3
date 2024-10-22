@@ -4,6 +4,7 @@
 
 package com.mycompany.sportifydao;
 
+
 /**
  *
  * @author jl4ma
@@ -11,6 +12,7 @@ package com.mycompany.sportifydao;
 public class SportifyDAO {
 
     public static void main(String[] args) {
-        
-    }
+       
 }
+}
+

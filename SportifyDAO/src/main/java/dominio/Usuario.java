@@ -63,8 +63,8 @@ public class Usuario {
     private Rol rol;
 
     @ManyToOne
-    @JoinColumn(name = "id_municipio", foreignKey = @ForeignKey(name = "fk_municipio"))
-    private Municipio municipio;
+    @JoinColumn(name = "id_estado", foreignKey = @ForeignKey(name = "fk_estado"))
+    private Estado estado;
 
     public enum Genero {
         MASCULINO, FEMENINO, NO_ESPECIFICADO
@@ -170,13 +170,15 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public Municipio getMunicipio() {
-        return municipio;
+    public Estado getEstado() {
+        return estado;
     }
 
-    public void setMunicipio(Municipio municipio) {
-        this.municipio = municipio;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
+
+    
 
     
 }
