@@ -4,10 +4,12 @@
  */
 package DAOs;
 
+import interfaces.IEstadoDAO;
+
 /**
  *
  * @author jl4ma
  */
-public class EstadoDAO {
+public class EstadoDAO implements IEstadoDAO{
     
 }

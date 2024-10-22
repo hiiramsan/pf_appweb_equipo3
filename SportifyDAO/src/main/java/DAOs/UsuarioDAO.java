@@ -4,10 +4,12 @@
  */
 package DAOs;
 
+import interfaces.IUsuarioDAO;
+
 /**
  *
  * @author jl4ma
  */
-public class UsuarioDAO {
+public class UsuarioDAO implements IUsuarioDAO{
     
 }

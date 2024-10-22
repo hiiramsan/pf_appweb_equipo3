@@ -4,10 +4,12 @@
  */
 package DAOs;
 
+import interfaces.IPostDAO;
+
 /**
  *
  * @author jl4ma
  */
-public class PostDAO {
+public class PostDAO implements IPostDAO{
     
 }

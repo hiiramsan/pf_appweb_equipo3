@@ -4,10 +4,12 @@
  */
 package DAOs;
 
+import interfaces.IMunicipioDAO;
+
 /**
  *
  * @author jl4ma
  */
-public class MunicipioDAO {
+public class MunicipioDAO implements IMunicipioDAO{
     
 }
