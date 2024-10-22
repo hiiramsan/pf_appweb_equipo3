@@ -4,10 +4,17 @@
  */
 package interfaces;
 
+import dominio.Estado;
+import dominio.Municipio;
+
 /**
  *
  * @author jl4ma
  */
 public interface IEstadoDAO {
-    
+    public void agregarEstado (Estado estado);
+    public void agregarMunicipio(Estado estado, Municipio municipio);
+    public void actualizarEstado(Estado estado);
+    public void eliminarEstado(Estado estado);
+    public Estado consultarEstado(int id);
 }

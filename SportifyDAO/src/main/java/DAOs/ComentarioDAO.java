@@ -4,6 +4,8 @@
  */
 package DAOs;
 
+import dominio.Comentario;
+import dominio.Post;
 import interfaces.IComentarioDAO;
 
 /**
@@ -11,5 +13,32 @@ import interfaces.IComentarioDAO;
  * @author jl4ma
  */
 public class ComentarioDAO implements IComentarioDAO{
+    
+    public void agregarComentario(Comentario comentario){
+        
+    }
+    
+    @Override
+    public void agregarComentarioAComentario(Comentario comentario, Comentario comentarioNuevo){
+        
+    }
+    
+    @Override
+    public void actualizarComentario(Comentario comentario){
+        
+    }
+    
+    
+    @Override
+    public void eliminarComentario(Comentario comentario){
+        
+    }
+    
+    @Override
+    public Comentario consultarComentario(int id){
+        
+        return new Comentario();
+    }
+    
     
 }

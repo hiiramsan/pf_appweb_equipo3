@@ -4,10 +4,16 @@
  */
 package interfaces;
 
+import dominio.Municipio;
+
 /**
  *
  * @author jl4ma
  */
 public interface IMunicipioDAO {
     
+    public void agregarMunicipio(Municipio municipio);
+    public void actualizarMunicipio(Municipio municipio);
+    public void eliminarMunicipio(Municipio municipio);
+    public Municipio consultarMunicipio(int id);
 }

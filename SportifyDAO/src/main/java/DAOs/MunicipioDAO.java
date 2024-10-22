@@ -4,6 +4,7 @@
  */
 package DAOs;
 
+import dominio.Municipio;
 import interfaces.IMunicipioDAO;
 
 /**
@@ -12,4 +13,25 @@ import interfaces.IMunicipioDAO;
  */
 public class MunicipioDAO implements IMunicipioDAO{
     
+    
+    @Override
+    public void agregarMunicipio(Municipio municipio){
+        
+    }
+    
+    @Override
+    public void actualizarMunicipio(Municipio municipio){
+        
+    }
+    
+    @Override
+    public void eliminarMunicipio(Municipio municipio){
+        
+    }
+    
+    @Override
+    public Municipio consultarMunicipio(int id){
+        
+        return new Municipio();
+    }
 }

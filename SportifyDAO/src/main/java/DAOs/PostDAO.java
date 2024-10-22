@@ -4,6 +4,7 @@
  */
 package DAOs;
 
+import dominio.Post;
 import interfaces.IPostDAO;
 
 /**
@@ -11,5 +12,34 @@ import interfaces.IPostDAO;
  * @author jl4ma
  */
 public class PostDAO implements IPostDAO{
+    
+    
+    @Override
+    public void agregarPost(Post post){
+        
+    }
+    
+    @Override
+    public void actualizarPost(Post post){
+        
+    }
+    
+    @Override
+    public void eliminarPost(Post post){
+        
+    }
+    
+    @Override
+    public Post consultarPost(int id){
+        
+        
+        return new Post();
+    }
+    
+    @Override
+    public void anclarPost(Post post){
+        
+    }
+    
     
 }

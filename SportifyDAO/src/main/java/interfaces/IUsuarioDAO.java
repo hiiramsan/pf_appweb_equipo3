@@ -4,10 +4,20 @@
  */
 package interfaces;
 
+import dominio.Estado;
+import dominio.Usuario;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author jl4ma
  */
 public interface IUsuarioDAO {
-    
+    public void agregarUsuario(Usuario usuario);
+    public void actualizarUsuario(Usuario usuario);
+    public void eliminarUsuario(Usuario usuario);
+    public Usuario consultarUsuario(int id);
+    public void agregarEstado(Estado estado, Usuario usuario);
+    public List<Usuario> consultarUsuarios();
 }
