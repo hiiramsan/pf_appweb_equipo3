@@ -267,6 +267,6 @@
         </ul>
       </div>
       <div class="auth-links">
-        <a href="login.html">Log In</a>
+          <p>Username</p>
       </div>
     </nav>
