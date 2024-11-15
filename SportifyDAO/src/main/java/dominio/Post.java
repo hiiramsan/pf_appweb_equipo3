@@ -84,7 +84,4 @@ public class Post {
     public void setIsAnclado(boolean isAnclado) {
         this.isAnclado = isAnclado;
     }
-    
-    
-    
 }

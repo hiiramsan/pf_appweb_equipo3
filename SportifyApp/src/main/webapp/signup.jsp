@@ -68,7 +68,7 @@
                 </div>
                 <div class="submit-container">
                     <input type="submit" value="Create Account">
-                    <p>Have an account already? <a href="login.html">Log in</a></p>
+                    <p>Have an account already? <a href="login.jsp">Log in</a></p>
                 </div>
 
             </form>

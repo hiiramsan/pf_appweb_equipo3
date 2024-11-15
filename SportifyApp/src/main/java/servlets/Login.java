@@ -48,6 +48,9 @@ public class Login extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         
+        
+        
+        // prueba... aqui se checa con base de datos
         if("admin@mail.com".equals(email) && "12345".equals(password)) {
             HttpSession sesion = request.getSession();
             sesion.setAttribute("usuario", email);
