@@ -1,0 +1,5 @@
+filtros\FiltroAutenticacion.class
+servlets\Registro.class
+servlets\Login.class
+com\mycompany\sportifyapp\resources\JakartaEE8Resource.class
+com\mycompany\sportifyapp\JakartaRestConfiguration.class

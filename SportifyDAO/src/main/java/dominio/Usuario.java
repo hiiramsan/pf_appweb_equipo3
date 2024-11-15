@@ -28,13 +28,10 @@ public class Usuario {
     private int idUsuario;
 
     @Column(nullable = false, length = 50)
-    private String nombres;
+    private String nombre;
 
     @Column(nullable = false, length = 50)
-    private String apellidoPaterno;
-
-    @Column(nullable = false, length = 50)
-    private String apellidoMaterno;
+    private String apellido;
 
     @Column(nullable = false, length = 255)
     private String correo;
@@ -82,28 +79,20 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public String getNombres() {
-        return nombres;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getApellidoPaterno() {
-        return apellidoPaterno;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setApellidoPaterno(String apellidoPaterno) {
-        this.apellidoPaterno = apellidoPaterno;
-    }
-
-    public String getApellidoMaterno() {
-        return apellidoMaterno;
-    }
-
-    public void setApellidoMaterno(String apellidoMaterno) {
-        this.apellidoMaterno = apellidoMaterno;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getCorreo() {

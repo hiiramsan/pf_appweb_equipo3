@@ -37,7 +37,7 @@ public class UsuarioDAO implements IUsuarioDAO{
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e; // Lanza la excepción para manejarla en otro lugar
+            throw e; 
         }
     }
 

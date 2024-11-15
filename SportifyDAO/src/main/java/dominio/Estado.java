@@ -20,7 +20,7 @@ public class Estado {
     private String nombre;
 
     // Relación uno a muchos con Municipio
-    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     private List<Municipio> municipios = new ArrayList<>();
 
     // Relación uno a muchos con Usuario (opcional)
