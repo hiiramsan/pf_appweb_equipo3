@@ -22,12 +22,12 @@
             </section>
 
 
-            <form action="">
+            <form action="login" method="POST">
                 <label for="email">Email</label>
-                <input type="email" placeholder="example@mail.com" required autofocus>
+                <input type="email" placeholder="your email" name="email" required autofocus>
 
-                <label for="password">Pasword</label>
-                <input type="password" placeholder="Write a secret password" required>
+                <label for="password">Password</label>
+                <input type="password" placeholder="Write a secret password" name="password" required>
 
                 <input type="submit" value="Log in">
                 <p>Don’t have an account? <a href="registro.html">Sign Up, It’s Free!</a></p>
