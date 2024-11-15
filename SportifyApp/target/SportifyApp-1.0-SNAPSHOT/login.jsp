@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +22,9 @@
                 <h1>Log in</h1>
             </section>
 
-
+            <c:if test="${param.error eq 'true'}">
+                <p style="color: red;">Email o contraseña incorrectos. Por favor, inténtalo de nuevo.</p>
+            </c:if>
             <form action="login" method="POST">
                 <label for="email">Email</label>
                 <input type="email" placeholder="your email" name="email" required autofocus>
@@ -30,7 +33,7 @@
                 <input type="password" placeholder="Write a secret password" name="password" required>
 
                 <input type="submit" value="Log in">
-                <p>Don’t have an account? <a href="registro.html">Sign Up, It’s Free!</a></p>
+                <p>Don’t have an account? <a href="./signup.jsp">Sign Up, It’s Free!</a></p>
             </form>
 
         </div>

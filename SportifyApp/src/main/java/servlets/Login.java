@@ -53,7 +53,7 @@ public class Login extends HttpServlet {
             sesion.setAttribute("usuario", email);
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else {
-            response.sendRedirect(request.getContextPath() + "/index.jsp?error=true");
+            response.sendRedirect(request.getContextPath() + "/login.jsp?error=true");
         }
     }
 
