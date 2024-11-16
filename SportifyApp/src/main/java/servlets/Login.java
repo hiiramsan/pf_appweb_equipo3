@@ -51,13 +51,13 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         Fachada fachada = new Fachada();
         Usuario usuario = fachada.consultarUsuarioPorEmail(email);
-        System.out.println(usuario.toString());
         
         if (usuario != null) {
             if (usuario.getContrasenia().equals(password)) {
 
                 HttpSession session = request.getSession();
                 session.setAttribute("usuario", usuario);
+                session.setAttribute("usuarioNombre", usuario.getNombre());
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
             }
 
