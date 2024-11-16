@@ -5,6 +5,7 @@
 package servlets;
 
 import control.Fachada;
+import control.IFachada;
 import dominio.Usuario;
 import dominio.Usuario.Rol;
 import java.io.IOException;
@@ -78,7 +79,7 @@ public class Registro extends HttpServlet {
         usuario.setGenero(genero);
         usuario.setRol(Rol.NORMAL);
 
-        Fachada fachada = new Fachada();
+        IFachada fachada = new Fachada();
         try {
             fachada.agregarUsuario(usuario);
             HttpSession sesion = request.getSession();
