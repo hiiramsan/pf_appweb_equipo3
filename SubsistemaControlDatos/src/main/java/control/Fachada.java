@@ -149,6 +149,9 @@ public class Fachada implements IFachada{
         return factory.objectoUsuario().consultarUsuarios();
     }
     
-    
+    @Override
+    public Usuario consultarUsuarioPorEmail(String email) {
+        return factory.objectoUsuario().consultarUsuarioPorEmail(email);
+    }
     
 }

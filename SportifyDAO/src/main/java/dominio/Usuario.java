@@ -4,6 +4,7 @@
  */
 package dominio;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +22,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Usuario")
-public class Usuario {
+public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,7 @@ public class Usuario {
     @Column(nullable = false, length = 50)
     private String apellido;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 255, unique=true)
     private String correo;
 
     @Column(nullable = false, length = 255)

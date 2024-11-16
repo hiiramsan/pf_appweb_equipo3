@@ -4,6 +4,7 @@
  */
 package dominio;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Municipio")
-public class Municipio {
+public class Municipio implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

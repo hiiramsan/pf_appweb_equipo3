@@ -4,6 +4,7 @@
  */
 package dominio;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -22,7 +23,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Comentario")
-public class Comentario {
+public class Comentario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

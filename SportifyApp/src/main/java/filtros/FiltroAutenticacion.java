@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 public class FiltroAutenticacion implements Filter {
     
     private static final boolean debug = true;
-    private static final String[] urlPublicas = {"login", "styles/", "signup"};
+    private static final String[] urlPublicas = {"login", "styles/", "signup", "registro"};
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -137,6 +137,7 @@ public class FiltroAutenticacion implements Filter {
         
         if(!logueado && urlPrivada) {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
+            System.out.println("no puedes entrar");
         } else {
             chain.doFilter(request, response);
         }
