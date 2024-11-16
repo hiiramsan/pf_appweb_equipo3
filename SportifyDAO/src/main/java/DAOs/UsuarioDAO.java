@@ -12,12 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author jl4ma
  */
-public class UsuarioDAO implements IUsuarioDAO{
+public class UsuarioDAO implements IUsuarioDAO {
+
     private EntityManager em;
     private Conexion conexion;
 
@@ -25,7 +28,7 @@ public class UsuarioDAO implements IUsuarioDAO{
         this.conexion = new Conexion();
         this.em = conexion.getEntityManager();
     }
-    
+
     @Override
     public void agregarUsuario(Usuario usuario) {
         EntityTransaction transaction = em.getTransaction();
@@ -37,7 +40,7 @@ public class UsuarioDAO implements IUsuarioDAO{
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e; 
+            throw e;
         }
     }
 
@@ -77,6 +80,18 @@ public class UsuarioDAO implements IUsuarioDAO{
     @Override
     public Usuario consultarUsuario(int id) {
         return em.find(Usuario.class, id);
+    }
+
+    @Override
+    public Usuario consultarUsuarioPorEmail(String email) {
+        try {
+            TypedQuery<Usuario> query = em.createQuery(
+                    "SELECT u FROM Usuario u WHERE u.correo = :correo", Usuario.class);
+            query.setParameter("correo", email);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override

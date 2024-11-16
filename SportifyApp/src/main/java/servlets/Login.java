@@ -4,6 +4,8 @@
  */
 package servlets;
 
+import control.Fachada;
+import dominio.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -47,16 +49,23 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        Fachada fachada = new Fachada();
+        Usuario usuario = fachada.consultarUsuarioPorEmail(email);
+        System.out.println(usuario.toString());
         
-        
-        
-        // prueba... aqui se checa con base de datos
-        if("admin@mail.com".equals(email) && "12345".equals(password)) {
-            HttpSession sesion = request.getSession();
-            sesion.setAttribute("usuario", email);
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+        if (usuario != null) {
+            if (usuario.getContrasenia().equals(password)) {
+
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", usuario);
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
+            }
+
         } else {
+            System.out.println("no existe");
+            
             response.sendRedirect(request.getContextPath() + "/login.jsp?error=true");
+
         }
     }
 

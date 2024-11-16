@@ -47,4 +47,5 @@ public interface IFachada {
     public Usuario consultarUsuario(int id);
     public void agregarEstado(Estado estado, Usuario usuario);
     public List<Usuario> consultarUsuarios();
+    public Usuario consultarUsuarioPorEmail(String email);
 }
