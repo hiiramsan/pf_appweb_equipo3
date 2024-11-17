@@ -40,6 +40,7 @@ public interface IFachada {
     public void eliminarPost(Post post);
     public Post consultarPost(int id);
     public void anclarPost(Post post);
+    public List<Post> obtenerTodosLosPosts();
     
     public void agregarUsuario(Usuario usuario);
     public void actualizarUsuario(Usuario usuario);

@@ -5,6 +5,7 @@
 package interfaces;
 
 import dominio.Post;
+import java.util.List;
 
 /**
  *
@@ -17,4 +18,5 @@ public interface IPostDAO {
     public void eliminarPost(Post post);
     public Post consultarPost(int id);
     public void anclarPost(Post post);
+    public List<Post> obtenerTodosLosPosts();
 }
