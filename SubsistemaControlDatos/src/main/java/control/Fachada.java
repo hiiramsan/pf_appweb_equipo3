@@ -154,4 +154,9 @@ public class Fachada implements IFachada{
         return factory.objectoUsuario().consultarUsuarioPorEmail(email);
     }
     
+    @Override
+    public List<Post> obtenerTodosLosPosts() {
+        return factory.obejctoPost().obtenerTodosLosPosts();
+    }
+    
 }

@@ -116,8 +116,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         try {
             usuarios = em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
         } catch (RuntimeException e) {
-            // Manejo de errores
-            throw e; // Lanza la excepción para manejarla en otro lugar
+            throw e; 
         }
         return usuarios;
     }

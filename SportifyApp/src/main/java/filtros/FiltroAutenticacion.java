@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 public class FiltroAutenticacion implements Filter {
     
     private static final boolean debug = true;
-    private static final String[] urlPublicas = {"login", "styles/", "signup", "registro"};
+    private static final String[] urlPublicas = {"login", "styles/", "signup", "registro", "home", "views/login.jsp", "views/signup.jsp"};
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -109,17 +109,6 @@ public class FiltroAutenticacion implements Filter {
         String ruta = uriSolicitada.substring(httpRequest.getContextPath().length());
         return ruta;
     }
-    
-    
-    /**
-     *
-     * @param request The servlet request we are processing
-     * @param response The servlet response we are creating
-     * @param chain The filter chain we are processing
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception ServletException if a servlet error occurs
-     */
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
@@ -136,8 +125,8 @@ public class FiltroAutenticacion implements Filter {
         boolean logueado = this.estaLogueado(httpRequest);
         
         if(!logueado && urlPrivada) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
-            System.out.println("no puedes entrar");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/views/login.jsp");
+            System.out.println("no puedes entrar. inicia sesion");
         } else {
             chain.doFilter(request, response);
         }
@@ -240,3 +229,7 @@ public class FiltroAutenticacion implements Filter {
     }
     
 }
+
+
+
+

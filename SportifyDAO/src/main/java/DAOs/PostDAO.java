@@ -7,15 +7,19 @@ package DAOs;
 import conexion.Conexion;
 import dominio.Post;
 import interfaces.IPostDAO;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author jl4ma
  */
-public class PostDAO implements IPostDAO{
-    
+public class PostDAO implements IPostDAO {
+
     private EntityManager em;
     private Conexion conexion;
 
@@ -23,7 +27,7 @@ public class PostDAO implements IPostDAO{
         this.conexion = new Conexion();
         this.em = conexion.getEntityManager();
     }
-    
+
     @Override
     public void agregarPost(Post post) {
         EntityTransaction transaction = em.getTransaction();
@@ -85,7 +89,7 @@ public class PostDAO implements IPostDAO{
             transaction.begin();
             Post postToUpdate = em.find(Post.class, post.getIdPost());
             if (postToUpdate != null) {
-                postToUpdate.setIsAnclado(true); // Suponiendo que hay un campo "anclado" en la clase Post
+                postToUpdate.setIsAnclado(true);
                 em.merge(postToUpdate);
             }
             transaction.commit();
@@ -93,9 +97,23 @@ public class PostDAO implements IPostDAO{
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e; // Lanza la excepción para manejarla en otro lugar
+            throw e; 
         }
     }
+
+    @Override
+    public List<Post> obtenerTodosLosPosts() {
+        try {
+            TypedQuery<Post> query = em.createQuery(
+                    "SELECT p FROM Post p ", Post.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+ 
+    
     
     
 }

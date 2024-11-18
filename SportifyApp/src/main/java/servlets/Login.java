@@ -47,24 +47,20 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("im in doPost Login");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Fachada fachada = new Fachada();
         Usuario usuario = fachada.consultarUsuarioPorEmail(email);
-        
-        if (usuario != null) {
-            if (usuario.getContrasenia().equals(password)) {
 
-                HttpSession session = request.getSession();
-                session.setAttribute("usuario", usuario);
-                session.setAttribute("usuarioNombre", usuario.getNombre());
-                response.sendRedirect(request.getContextPath() + "/index.jsp");
-            }
+        if (usuario != null && usuario.getContrasenia().equals(password)) {
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", usuario);
+            session.setAttribute("usuarioNombre", usuario.getNombre());
+            response.sendRedirect(request.getContextPath()+"/principal");
 
         } else {
-            System.out.println("no existe");
-            
-            response.sendRedirect(request.getContextPath() + "/login.jsp?error=true");
+            response.sendRedirect(request.getContextPath() + "/views/login.jsp?error=true");
 
         }
     }

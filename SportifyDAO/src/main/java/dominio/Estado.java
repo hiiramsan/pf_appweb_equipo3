@@ -24,10 +24,6 @@ public class Estado implements Serializable {
     @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     private List<Municipio> municipios = new ArrayList<>();
 
-    // Relación uno a muchos con Usuario (opcional)
-    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Usuario> usuarios = new ArrayList<>(); // Si necesitas la relación
-
     // Getters y Setters
     public int getIdEstado() {
         return idEstado;
@@ -53,11 +49,4 @@ public class Estado implements Serializable {
         this.municipios = municipios;
     }
 
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
 }
