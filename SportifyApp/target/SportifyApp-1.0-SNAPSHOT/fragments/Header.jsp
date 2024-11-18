@@ -11,7 +11,7 @@
 </head>
 <nav>
     <div class="logo">
-        <a href="/index.jsp">
+        <a   <a href="${pageContext.request.contextPath}/home">
             <img src="${pageContext.request.contextPath}/img/sportify-logo.png" alt="" />
         </a>
     </div>

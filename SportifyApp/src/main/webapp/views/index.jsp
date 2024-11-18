@@ -24,7 +24,7 @@
                             <div class="post">
                                 <h2>${post.titulo}</h2>
                                 <p>${post.contenido}</p>
-                                <a href="detalle.jsp?id=${post.id}">Ver más</a>
+                                <a href="${pageContext.request.contextPath}/postpage?id=${post.idPost}">Ver más</a>
                             </div>
                         </c:forEach>
                     </div>
@@ -34,7 +34,7 @@
                 </c:if>
             </main>
             <aside>
-                <a class="create-post" href="./create-post.jsp">
+                <a class="create-post" href="./views/create-post.jsp">
                     <svg
                         fill="#000000"
                         viewBox="0 0 512 512"

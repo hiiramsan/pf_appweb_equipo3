@@ -15,7 +15,7 @@
     <body>
         <div class="container">
             <h1>Create your Sport<span>ify</span> account</h1>
-            <form action="registro" method="POST">
+            <form action="${pageContext.request.contextPath}/registro" method="POST">
                 <div class="form-column">
                     <div class="form-group">
                         <label for="email">Email</label>

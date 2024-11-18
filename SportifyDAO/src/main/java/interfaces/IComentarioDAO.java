@@ -5,6 +5,7 @@
 package interfaces;
 
 import dominio.Comentario;
+import java.util.List;
 
 /**
  *
@@ -17,4 +18,5 @@ public interface IComentarioDAO {
      public void actualizarComentario(Comentario comentario);
      public void eliminarComentario(Comentario comentario);
      public Comentario consultarComentario(int id);
+     public List<Comentario> obtenerTodosLosComentariosDeUnPost(int idComentado);
 }

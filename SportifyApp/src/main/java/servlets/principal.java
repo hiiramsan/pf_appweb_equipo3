@@ -36,6 +36,7 @@ public class principal extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            System.out.println("INSIDE PRINCIPAL GET");
             Fachada fachada = new Fachada();
             List<Post> posts = fachada.obtenerTodosLosPosts();
             for (Post p : posts) {

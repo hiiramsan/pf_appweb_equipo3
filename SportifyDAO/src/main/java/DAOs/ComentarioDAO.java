@@ -7,8 +7,12 @@ package DAOs;
 import conexion.Conexion;
 import dominio.Comentario;
 import interfaces.IComentarioDAO;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -100,5 +104,26 @@ public class ComentarioDAO implements IComentarioDAO {
         }
         return comentario; // Retorna el comentario encontrado
     }
+    
+    /**
+ * Retrieves all comments associated with a specific post.
+ * 
+ * @param idComentado The ID of the post to get comments for
+ * @return List of comments for the post, or empty list if none found or on error
+ */
+@Override
+public List<Comentario> obtenerTodosLosComentariosDeUnPost(int idComentado) {
+    try {
+        Query query = em.createNativeQuery(
+                "SELECT * FROM comentario WHERE id_comentado = 1 ORDER BY fechahora DESC", 
+                Comentario.class);
+        query.setParameter("idComentado", idComentado);
+        return query.getResultList();
+    } catch (Exception e) {
+        System.out.println("Error retrieving comments for post " + idComentado + ": " + e.getMessage());
+        e.printStackTrace();
+        return new ArrayList<>();
+    }
+}
 
 }

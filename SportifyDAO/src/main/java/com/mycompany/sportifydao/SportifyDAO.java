@@ -4,6 +4,10 @@
 
 package com.mycompany.sportifydao;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 
 /**
  *
@@ -11,8 +15,17 @@ package com.mycompany.sportifydao;
  */
 public class SportifyDAO {
 
-    public static void main(String[] args) {
-       
-}
+     public static void main(String[] args) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_SportifyDAO_jar_1.0-SNAPSHOTPU");
+            EntityManager em = emf.createEntityManager();
+            System.out.println("Database generated successfully!");
+            em.close();
+            emf.close();
+        } catch (Exception e) {
+            System.out.println("Error generating database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
 

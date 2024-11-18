@@ -39,9 +39,10 @@ public class Comentario implements Serializable {
     @JoinColumn(name = "id_usuario", foreignKey = @ForeignKey(name = "fk_usuario_comentario"))
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "id_comentado", foreignKey = @ForeignKey(name = "fk_comentado_comentario"))
-    private Usuario comentado;
+    //@ManyToOne
+    //@JoinColumn(name = "id_comentado", foreignKey = @ForeignKey(name = "fk_comentado_comentario"))
+    @Column(name = "id_comentado")
+    private int comentado;
 
     // Relación recursiva para respuestas
     @ManyToOne
@@ -83,11 +84,11 @@ public class Comentario implements Serializable {
         this.usuario = usuario;
     }
 
-    public Usuario getComentado() {
+    public int getComentado() {
         return comentado;
     }
 
-    public void setComentado(Usuario comentado) {
+    public void setComentado(int comentado) {
         this.comentado = comentado;
     }
 

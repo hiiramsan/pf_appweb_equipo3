@@ -40,13 +40,19 @@ public class Home extends HttpServlet {
         try {
             Fachada fachada = new Fachada();
             List<Post> posts = fachada.obtenerTodosLosPosts();
+            
+            System.out.println("Number of posts retrieved: " + posts.size());
+            System.out.println("posts retrieved: " + posts);            
+            
             for (Post p : posts) {
                 System.out.println(p.getTitulo());
+                System.out.println(p.getIdPost());
             }
             request.setAttribute("posts", posts);
-            request.getRequestDispatcher(request.getContextPath() + "/views/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/index.jsp").forward(request, response);
         } catch (Exception e) {
             System.out.println("ocurrio un error");
+            throw new Error(e   );
         }
         
     }

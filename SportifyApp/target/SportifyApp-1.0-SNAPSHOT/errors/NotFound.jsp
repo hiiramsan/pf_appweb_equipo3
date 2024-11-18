@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>404 - Not Found!</h1>
-        <a href="/SportifyApp/views/index.jsp">Volver al inicio</a>
+          <a href="${pageContext.request.contextPath}/home">Volver al inicio</a>
     </body>
 </html>

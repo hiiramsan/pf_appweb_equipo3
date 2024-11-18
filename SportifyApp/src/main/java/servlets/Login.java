@@ -57,8 +57,7 @@ public class Login extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
             session.setAttribute("usuarioNombre", usuario.getNombre());
-            response.sendRedirect(request.getContextPath()+"/principal");
-
+            response.sendRedirect(request.getContextPath()+"/home");
         } else {
             response.sendRedirect(request.getContextPath() + "/views/login.jsp?error=true");
 
