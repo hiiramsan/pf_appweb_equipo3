@@ -6,12 +6,13 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <head>
-    <link rel="stylesheet" type="text/css" href="styles/header.css">
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css"/>
 </head>
 <nav>
     <div class="logo">
-        <a href="index.html">
-            <img src="img/sportify-logo.png" alt="" />
+        <a href="/index.jsp">
+            <img src="${pageContext.request.contextPath}/img/sportify-logo.png" alt="" />
         </a>
     </div>
     <div class="nav-links">

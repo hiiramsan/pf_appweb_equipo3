@@ -97,19 +97,19 @@ public class PostDAO implements IPostDAO {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e; // Lanza la excepción para manejarla en otro lugar
+            throw e; 
         }
     }
 
+    @Override
     public List<Post> obtenerTodosLosPosts() {
         try {
             TypedQuery<Post> query = em.createQuery(
-                    "SELECT p FROM Post p ORDER BY p.fechaCreacion DESC", Post.class);
+                    "SELECT p FROM Post p ", Post.class);
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-            return new ArrayList<>();
-
+            return null;
         }
     }
  
