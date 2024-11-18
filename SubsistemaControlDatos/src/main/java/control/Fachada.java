@@ -48,6 +48,11 @@ public class Fachada implements IFachada{
     public Comentario consultarComentario(int id) {
             return factory.objectoComentario().consultarComentario(id);
     }
+    
+    @Override
+    public List<Comentario> obtenerTodosLosComentariosDeUnPost(int idComentado) {
+            return factory.objectoComentario().obtenerTodosLosComentariosDeUnPost(idComentado);
+    }
 
     @Override
     public void agregarEstado(Estado estado) {

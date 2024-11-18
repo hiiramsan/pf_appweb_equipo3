@@ -62,40 +62,40 @@ public class Registro extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println("ESTOY EN REGISTRO");
+            System.out.println("ESTOY EN REGISTRO");
 
-        String nombre = request.getParameter("first-name");
-        String apellido = request.getParameter("last-name");
-        String correo = request.getParameter("email");
-        String contrasenia = request.getParameter("password");
-        String telefono = request.getParameter("phone");
-        String ciudad = request.getParameter("city");
-        String fechaNacimientoStr = request.getParameter("dob");
-        String generoStr = request.getParameter("gender");
+            String nombre = request.getParameter("first-name");
+            String apellido = request.getParameter("last-name");
+            String correo = request.getParameter("email");
+            String contrasenia = request.getParameter("password");
+            String telefono = request.getParameter("phone");
+            String ciudad = request.getParameter("city");
+            String fechaNacimientoStr = request.getParameter("dob");
+            String generoStr = request.getParameter("gender");
 
-        Calendar fechaNacimiento = Calendar.getInstance();
-        fechaNacimiento.setTime(java.sql.Date.valueOf(fechaNacimientoStr));
-        Usuario.Genero genero = Usuario.Genero.valueOf(generoStr.toUpperCase());
+            Calendar fechaNacimiento = Calendar.getInstance();
+            fechaNacimiento.setTime(java.sql.Date.valueOf(fechaNacimientoStr));
+            Usuario.Genero genero = Usuario.Genero.valueOf(generoStr.toUpperCase());
 
-        Usuario usuario = new Usuario();
-        usuario.setNombre(nombre);
-        usuario.setApellido(apellido);
-        usuario.setCorreo(correo);
-        usuario.setContrasenia(contrasenia);
-        usuario.setTelefono(telefono);
-        usuario.setCiudad(ciudad);
-        usuario.setFechaNacimiento(fechaNacimiento);
-        usuario.setGenero(genero);
-        usuario.setRol(Rol.NORMAL);
+            Usuario usuario = new Usuario();
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setCorreo(correo);
+            usuario.setContrasenia(contrasenia);
+            usuario.setTelefono(telefono);
+            usuario.setCiudad(ciudad);
+            usuario.setFechaNacimiento(fechaNacimiento);
+            usuario.setGenero(genero);
+            usuario.setRol(Rol.NORMAL);
 
-        IFachada fachada = new Fachada();
-        try {
-            fachada.agregarUsuario(usuario);
-            response.sendRedirect("login.jsp");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
+            IFachada fachada = new Fachada();
+            try {
+                fachada.agregarUsuario(usuario);
+                response.sendRedirect(request.getContextPath() + "/views/login.jsp");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e);
+            }
 
     }
 

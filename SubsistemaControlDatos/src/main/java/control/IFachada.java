@@ -23,6 +23,7 @@ public interface IFachada {
     public void actualizarComentario(Comentario comentario);
     public void eliminarComentario(Comentario comentario);
     public Comentario consultarComentario(int id);
+    public List<Comentario> obtenerTodosLosComentariosDeUnPost(int idComentado);
      
     public void agregarEstado (Estado estado);
     public void agregarMunicipio(Estado estado, Municipio municipio);

@@ -38,7 +38,7 @@ public class Posts extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        System.out.println("INSIDE GET POSTS");
 //        Fachada fachada = new Fachada();
 //        try {
 //            List<Post> posts = fachada.obtenerTodosLosPosts();
@@ -62,6 +62,8 @@ public class Posts extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        System.out.println("INSIDE POSTS doPOST");
 
         String title = request.getParameter("title");
         String content = request.getParameter("content");
@@ -80,7 +82,7 @@ public class Posts extends HttpServlet {
         
         try {
             fachada.agregarPost(post);
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            response.sendRedirect(request.getContextPath()+"/home");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "errorocurrido creando post");
