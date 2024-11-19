@@ -20,6 +20,10 @@
         <servlet-name>logout</servlet-name>
         <servlet-class>servlets.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadProfilePicture</servlet-name>
+        <servlet-class>servlets.UploadProfilePicture</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>registro</servlet-name>
         <url-pattern>/registro</url-pattern>
@@ -38,6 +42,10 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadProfilePicture</servlet-name>
+        <url-pattern>/uploadProfilePicture</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

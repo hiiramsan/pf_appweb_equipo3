@@ -268,9 +268,11 @@
         </ul>
     </div>
     <div class="auth-links">
+        <img src="${pageContext.request.contextPath}/profile_pictures/${sessionScope.usuario.urlAvatar}" alt="Profile Picture" />
         <h4>${sessionScope.usuario.nombre}</h4>
         <form action="logout" method="POST">
             <input type="submit" value="Log out">
         </form>
+        
     </div>
 </nav>

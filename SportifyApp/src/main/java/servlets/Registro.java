@@ -94,7 +94,7 @@ public class Registro extends HttpServlet {
                 Usuario newUser = fachada.consultarUsuarioPorEmail(correo);
                 HttpSession session = request.getSession();
                 session.setAttribute("usuario", newUser);
-                response.sendRedirect(request.getContextPath()+"/home");
+                response.sendRedirect(request.getContextPath()+"/views/uploadProfilePicture.jsp");
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e);

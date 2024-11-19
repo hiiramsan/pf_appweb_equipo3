@@ -96,6 +96,12 @@ nav {
     color: #fff;
 }
 
+.auth-links img{
+    width: 40px;
+    height: auto;
+    border-radius: 50%;
+}
+
 .nav-links ul {
     display: flex;
     flex-direction: row;
