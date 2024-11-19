@@ -113,7 +113,7 @@ public class Posts extends HttpServlet {
                     outStream.write(buffer, 0, bytesRead);
                 }
             }
-            post.setFoto(UPLOAD_DIR + "/" + fileName);
+            post.setFoto(fileName);
         }
 
         Post.Categoria categoria = Post.Categoria.valueOf(sport);
