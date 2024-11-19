@@ -91,7 +91,10 @@ public class Registro extends HttpServlet {
             IFachada fachada = new Fachada();
             try {
                 fachada.agregarUsuario(usuario);
-                response.sendRedirect(request.getContextPath() + "/views/login.jsp");
+                Usuario newUser = fachada.consultarUsuarioPorEmail(correo);
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", newUser);
+                response.sendRedirect(request.getContextPath()+"/home");
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e);

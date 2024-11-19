@@ -268,7 +268,7 @@
         </ul>
     </div>
     <div class="auth-links">
-        <h4>${sessionScope.usuarioNombre}</h4>
+        <h4>${sessionScope.usuario.nombre}</h4>
         <form action="logout" method="POST">
             <input type="submit" value="Log out">
         </form>
