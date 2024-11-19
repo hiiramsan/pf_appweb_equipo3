@@ -5,26 +5,38 @@
 package servlets;
 
 import control.Fachada;
+import control.IFachada;
 import dominio.Post;
 import dominio.Usuario;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author carlo
  */
+
+@MultipartConfig
 @WebServlet(name = "posts", urlPatterns = {"/posts"})
 public class Posts extends HttpServlet {
+
+    private static final String UPLOAD_DIR = "post_images";
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -62,27 +74,57 @@ public class Posts extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        System.out.println("INSIDE POSTS doPOST");
+
+        request.setCharacterEncoding("UTF-8");
 
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         String sport = request.getParameter("sport");
-        
+
+        if (sport != null && !sport.isEmpty()) {
+            sport = sport.toUpperCase();
+        } else {
+            System.out.println("Sport is not selected");
+        }
         Post post = new Post();
         post.setTitulo(title);
         post.setContenido(content);
         Usuario author = (Usuario) request.getSession().getAttribute("usuario");
         Calendar createdAt = Calendar.getInstance();
         post.setFechaHoraCreacion(createdAt);
-
         post.setAutor(author);
-        
-        Fachada fachada = new Fachada();
-        
+
+        // subida de iamgenn
+        Part filePart = request.getPart("image");
+        String fileName = null;
+        if (filePart != null && filePart.getSize() > 0) {
+            fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            File file = new File(uploadDir, fileName);
+            try (InputStream fileContent = filePart.getInputStream(); OutputStream outStream = new FileOutputStream(file)) {
+
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = fileContent.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+            }
+            post.setFoto(UPLOAD_DIR + "/" + fileName);
+        }
+
+        Post.Categoria categoria = Post.Categoria.valueOf(sport);
+
+        post.setCategoria(categoria);
+
+        IFachada fachada = new Fachada();
+
         try {
             fachada.agregarPost(post);
-            response.sendRedirect(request.getContextPath()+"/home");
+            response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "errorocurrido creando post");

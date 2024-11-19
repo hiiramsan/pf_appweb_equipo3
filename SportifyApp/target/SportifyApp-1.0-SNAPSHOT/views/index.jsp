@@ -22,6 +22,7 @@
                     <div class="posts">
                         <c:forEach var="post" items="${posts}">
                             <div class="post">
+                                <img src="${pageContext.request.contextPath}/post_images/${post.foto}" alt="Imagen del post" />
                                 <h2>${post.titulo}</h2>
                                 <p>${post.contenido}</p>
                                 <a href="${pageContext.request.contextPath}/postpage?id=${post.idPost}">Ver más</a>
@@ -34,7 +35,7 @@
                 </c:if>
             </main>
             <aside>
-                <a class="create-post" href="./views/create-post.jsp">
+                <a class="create-post" href="${pageContext.request.contextPath}/views/create-post.jsp">
                     <svg
                         fill="#000000"
                         viewBox="0 0 512 512"

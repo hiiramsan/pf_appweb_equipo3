@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/create-post.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/create-post.css"/>
     </head>
     <body>
         <%@ include file="../fragments/Header.jsp" %>
@@ -22,30 +22,33 @@
             <div class="div"></div>
         </div>
         <main>
-    <form action="${pageContext.request.contextPath}/posts" method="POST" onsubmit="console.log('Form submitting...');">
-        <div class="option-btns">
-            <div class="select-wrapper">
-                <select name="sport" id="sport" required>
-                    <option value="" disabled selected>Select a sport</option>
-                    <option value="soccer">⚽ Soccer</option>
-                    <option value="basketball">🏀 Basketball</option>
-                    <option value="baseball">⚾ Baseball</option>
-                    <option value="american-football">🏈 American Football</option>
-                    <option value="tennis">🎾 Tennis</option>
-                    <option value="volleyball">🏐 Volleyball</option>
-                </select>
-            </div>
+            <form action="${pageContext.request.contextPath}/posts" method="POST" onsubmit="console.log('Form submitting...');" enctype="multipart/form-data">
+                <div class="option-btns">
+                    <div class="select-wrapper">
+                        <select name="sport" id="sport" required>
+                            <option value="" disabled selected>Select a sport</option>
+                            <option value="soccer">⚽ Soccer</option>
+                            <option value="basketball">🏀 Basketball</option>
+                            <option value="baseball">⚾ Baseball</option>
+                            <option value="american-football">🏈 American Football</option>
+                            <option value="tennis">🎾 Tennis</option>
+                            <option value="volleyball">🏐 Volleyball</option>
+                        </select>
+                    </div>
 
-            <button class="option" id="post" type="submit">
-                Post
-            </button>
-        </div>
-        <div class="entry">
-            <input type="text" name="title" id="title" placeholder="Title..." required>
-            <textarea name="content" id="content" placeholder="Write here..." rows="20" required></textarea>
-        </div>
-    </form>
-</main>
+                    <label for="image">Upload Image:</label>
+                    <input type="file" name="image" id="image" accept="image/*">
+
+                    <button class="option" id="post" type="submit">
+                        Post
+                    </button>
+                </div>
+                <div class="entry">
+                    <input type="text" name="title" id="title" placeholder="Title..." required>
+                    <textarea name="content" id="content" placeholder="Write here..." rows="20" required></textarea>
+                </div>
+            </form>
+        </main>
 
     </body>
 </html>

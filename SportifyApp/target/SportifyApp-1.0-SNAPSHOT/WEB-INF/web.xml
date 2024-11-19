@@ -24,6 +24,15 @@
         <servlet-name>uploadProfilePicture</servlet-name>
         <servlet-class>servlets.UploadProfilePicture</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Posts</servlet-name>
+        <servlet-class>servlets.Posts</servlet-class>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size> <!-- Max file size in bytes (10MB in this case) -->
+            <max-request-size>20971520</max-request-size> <!-- Max request size -->
+            <file-size-threshold>0</file-size-threshold> <!-- Threshold for file upload -->
+        </multipart-config>
+    </servlet>
     <servlet-mapping>
         <servlet-name>registro</servlet-name>
         <url-pattern>/registro</url-pattern>
