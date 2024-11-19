@@ -38,7 +38,8 @@
 
         </div>
         <div class="contenedor02">
-            <img src="../img/wp1936496.jpg" alt="">
+            
+            <img src="${pageContext.request.contextPath}/img/wp1936496.png" alt="">
             <p>The place for <span>sports</span>, the place for <span>you</span></p>
         </div>
     </body>
