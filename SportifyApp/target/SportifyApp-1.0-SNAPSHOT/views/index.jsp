@@ -23,7 +23,7 @@
                         <c:forEach var="post" items="${posts}">
                            <article class="post normal-post">
                 <header>
-                    <img src="${post.autor.urlAvatar}" alt="pfp" />
+                    <img src="${post.autor.urlAvatar}" alt="Profile Picture" />
                     <p>${post.autor.nombre}</p>
                     <p class="light-gray">• <fmt:formatDate value="${post.fechaHoraCreacion.time}" pattern="dd/MM/yyyy"/></p>
                 </header>
@@ -35,7 +35,7 @@
                         </p>
                     </div>
                     <div class="right">
-                        <img src="${pageContext.request.contextPath}/post_images/${post.foto}" alt="img">
+                        <img src="${post.foto}" alt="img">
                     </div>
                 </section>
                 <div class="stats-container">

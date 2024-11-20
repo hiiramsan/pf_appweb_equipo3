@@ -4,19 +4,25 @@
  */
 package servlets;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import control.Fachada;
 import control.IFachada;
 import dominio.Usuario;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import utils.CloudinaryConfig;
 
 /**
  *
@@ -28,8 +34,6 @@ import javax.servlet.http.Part;
         maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 public class UploadProfilePicture extends HttpServlet {
-
-    private static final String UPLOAD_DIR = "profile_pictures";
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -58,31 +62,47 @@ public class UploadProfilePicture extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        if (usuario == null) {
-            response.sendRedirect(request.getContextPath() + "/views/login.jsp");
-            return;
-        }
-
-        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-
         Part filePart = request.getPart("profilePicture");
-        if (filePart != null) {
+
+        if (filePart != null && filePart.getSize() > 0) {
+            
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            String filePath = uploadPath + File.separator + fileName;
-            filePart.write(filePath);
-            usuario.setUrlAvatar(fileName); 
-            IFachada fachada = new Fachada();
-            fachada.actualizarUsuario(usuario);
-            request.getSession().setAttribute("usuario", usuario);
-            response.sendRedirect(request.getContextPath() + "/home");
+            
+            
+            File tempFile = File.createTempFile("upload-", fileName);
+            try (InputStream inputStream = filePart.getInputStream();
+                 FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+
+            
+            try {
+                Cloudinary cloudinary = CloudinaryConfig.getCloudinaryInstance();
+                Map uploadResult = cloudinary.uploader().upload(tempFile, 
+                    ObjectUtils.asMap("public_id", "profile_pictures/" + fileName));
+
+                
+                String url = (String) uploadResult.get("url");
+                Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                usuario.setUrlAvatar(url);
+                IFachada fachada = new Fachada();
+                fachada.actualizarUsuario(usuario);
+                tempFile.delete();
+                request.getSession().setAttribute("usuario", usuario);
+                response.sendRedirect(request.getContextPath() + "/home");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        "Error  subiendo Cloudinary");
+            }
         } else {
-            System.out.println("problemas subiendo imagen");
+            System.out.println("manejar error");
         }
+    
         
     }
 

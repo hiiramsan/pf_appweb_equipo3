@@ -4,6 +4,8 @@
  */
 package servlets;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import control.Fachada;
 import control.IFachada;
 import dominio.Post;
@@ -18,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import utils.CloudinaryConfig;
 
 /**
  *
@@ -86,38 +90,43 @@ public class Posts extends HttpServlet {
         } else {
             System.out.println("Sport is not selected");
         }
+
         Post post = new Post();
         post.setTitulo(title);
         post.setContenido(content);
+
         Usuario author = (Usuario) request.getSession().getAttribute("usuario");
         Calendar createdAt = Calendar.getInstance();
         post.setFechaHoraCreacion(createdAt);
         post.setAutor(author);
-
-        // subida de iamgenn
+        
         Part filePart = request.getPart("image");
-        String fileName = null;
         if (filePart != null && filePart.getSize() > 0) {
-            fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-            File file = new File(uploadDir, fileName);
-            try (InputStream fileContent = filePart.getInputStream(); OutputStream outStream = new FileOutputStream(file)) {
-
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            File tempFile = File.createTempFile("upload-", fileName);
+            try (InputStream fileContent = filePart.getInputStream();
+                 FileOutputStream outputStream = new FileOutputStream(tempFile)) {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 while ((bytesRead = fileContent.read(buffer)) != -1) {
-                    outStream.write(buffer, 0, bytesRead);
+                    outputStream.write(buffer, 0, bytesRead);
                 }
             }
-            post.setFoto(fileName);
+            try {
+                Cloudinary cloudinary = CloudinaryConfig.getCloudinaryInstance();
+                Map uploadResult = cloudinary.uploader().upload(tempFile, 
+                    ObjectUtils.asMap("public_id", "post_images/" + fileName));
+                String imageUrl = (String) uploadResult.get("url");
+                post.setFoto(imageUrl);
+                tempFile.delete();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("problemas con la imagen ");
+                return;
+            }
         }
 
         Post.Categoria categoria = Post.Categoria.valueOf(sport);
-
         post.setCategoria(categoria);
 
         IFachada fachada = new Fachada();
@@ -127,7 +136,8 @@ public class Posts extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "errorocurrido creando post");
+            request.setAttribute("error", "An error occurred while creating the post");
+            request.getRequestDispatcher("/createPost.jsp").forward(request, response);
         }
     }
 
