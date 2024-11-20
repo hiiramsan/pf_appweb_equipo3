@@ -61,10 +61,7 @@
                             <option value="NO_ESPECIFICADO">Prefiero no especificar</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="avatar">Avatar</label>
-                        <input type="file" id="avatar"name="avatar" accept="image/*">
-                    </div>
+                    
                 </div>
                 <div class="submit-container">
                     <input type="submit" value="Create Account">

@@ -4,27 +4,43 @@
  */
 package servlets;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import control.Fachada;
+import control.IFachada;
 import dominio.Post;
 import dominio.Usuario;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import utils.CloudinaryConfig;
 
 /**
  *
  * @author carlo
  */
+
+@MultipartConfig
 @WebServlet(name = "posts", urlPatterns = {"/posts"})
 public class Posts extends HttpServlet {
+
+    private static final String UPLOAD_DIR = "post_images";
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -62,30 +78,66 @@ public class Posts extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        System.out.println("INSIDE POSTS doPOST");
+
+        request.setCharacterEncoding("UTF-8");
 
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         String sport = request.getParameter("sport");
-        
+
+        if (sport != null && !sport.isEmpty()) {
+            sport = sport.toUpperCase();
+        } else {
+            System.out.println("Sport is not selected");
+        }
+
         Post post = new Post();
         post.setTitulo(title);
         post.setContenido(content);
+
         Usuario author = (Usuario) request.getSession().getAttribute("usuario");
         Calendar createdAt = Calendar.getInstance();
         post.setFechaHoraCreacion(createdAt);
-
         post.setAutor(author);
         
-        Fachada fachada = new Fachada();
-        
+        Part filePart = request.getPart("image");
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            File tempFile = File.createTempFile("upload-", fileName);
+            try (InputStream fileContent = filePart.getInputStream();
+                 FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = fileContent.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+            try {
+                Cloudinary cloudinary = CloudinaryConfig.getCloudinaryInstance();
+                Map uploadResult = cloudinary.uploader().upload(tempFile, 
+                    ObjectUtils.asMap("public_id", "post_images/" + fileName));
+                String imageUrl = (String) uploadResult.get("url");
+                post.setFoto(imageUrl);
+                tempFile.delete();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("problemas con la imagen ");
+                return;
+            }
+        }
+
+        Post.Categoria categoria = Post.Categoria.valueOf(sport);
+        post.setCategoria(categoria);
+
+        IFachada fachada = new Fachada();
+
         try {
             fachada.agregarPost(post);
-            response.sendRedirect(request.getContextPath()+"/home");
+            response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "errorocurrido creando post");
+            request.setAttribute("error", "An error occurred while creating the post");
+            request.getRequestDispatcher("/createPost.jsp").forward(request, response);
         }
     }
 

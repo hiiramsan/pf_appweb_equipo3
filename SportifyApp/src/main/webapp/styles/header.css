@@ -15,7 +15,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     --light-gray-color: #B2ABAB;
 }
 
-/* Navbar */
 nav {
     background-color: var(--gray-color);
     height: 6em;
@@ -27,6 +26,7 @@ nav {
     position: fixed;
     width: 100%;
     z-index: 1000;
+    color: #fff;
     top: 0;
 }
 
@@ -71,9 +71,10 @@ nav {
     display: flex;
     flex-direction: row;
     gap: 1em;
+    align-items: center;
 }
 
-.auth-links a {
+.auth-links input{
     background-color: var(--red-color);
     padding: 0.7em 1.2em;
     border-radius: 0.3em;
@@ -81,11 +82,26 @@ nav {
     color: #fff;
     text-decoration: none;
     transition: 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
 }
 
-.auth-links a:hover {
+.auth-links input:hover {
     opacity: 0.8;
 }
+
+.auth-links h4 {
+    color: #fff;
+}
+
+.auth-links img{
+    width: 40px;
+    height: auto;
+    border-radius: 50%;
+}
+
 .nav-links ul {
     display: flex;
     flex-direction: row;

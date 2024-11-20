@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,7 +42,18 @@ public class Post implements Serializable {
 
     @Column(nullable = false)
     private boolean isAnclado;
+    
+    @Column(length = 255)
+    private String foto;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Categoria categoria;
+    
+    public enum Categoria {
+        SOCCER, BASKETBALL, BASEBALL 
+    }
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario autor;
@@ -100,4 +113,22 @@ public class Post implements Serializable {
     public void setAutor(Usuario autor) {
         this.autor = autor;
     }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+    
+    
 }

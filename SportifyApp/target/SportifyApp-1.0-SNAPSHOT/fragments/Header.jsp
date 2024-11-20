@@ -1,4 +1,4 @@
-<%-- 
+    <%-- 
     Document   : Header
     Created on : Nov 15, 2024, 11:43:17 AM
     Author     : carlo
@@ -268,6 +268,11 @@
         </ul>
     </div>
     <div class="auth-links">
-        <p>${sessionScope.usuarioNombre}</p>
+        <img src="${sessionScope.usuario.urlAvatar}" alt="pfp" />
+        <h4>${sessionScope.usuario.nombre}</h4>
+        <form action="logout" method="POST">
+            <input type="submit" value="Log out">
+        </form>
+        
     </div>
 </nav>

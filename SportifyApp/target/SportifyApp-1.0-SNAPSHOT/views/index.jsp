@@ -21,11 +21,67 @@
                 <c:if test="${not empty posts}">
                     <div class="posts">
                         <c:forEach var="post" items="${posts}">
-                            <div class="post">
-                                <h2>${post.titulo}</h2>
-                                <p>${post.contenido}</p>
-                                <a href="${pageContext.request.contextPath}/postpage?id=${post.idPost}">Ver más</a>
-                            </div>
+                           <article class="post normal-post">
+                <header>
+                    <img src="${post.autor.urlAvatar}" alt="Profile Picture" />
+                    <p>${post.autor.nombre}</p>
+                    <p class="light-gray">• <fmt:formatDate value="${post.fechaHoraCreacion.time}" pattern="dd/MM/yyyy"/></p>
+                </header>
+                <section class="content">
+                    <div class="left">
+                        <h2>${post.titulo}</h2>
+                        <p class="light-gray">
+                            ${post.contenido}
+                        </p>
+                    </div>
+                    <div class="right">
+                        <img src="${post.foto}" alt="img">
+                    </div>
+                </section>
+                <div class="stats-container">
+                    <div class="stat">
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1.24264 8.24264L8 15L14.7574 8.24264C15.553 7.44699 16 6.36786 16 5.24264V5.05234C16 2.8143 14.1857 1 11.9477 1C10.7166 1 9.55233 1.55959 8.78331 2.52086L8 3.5L7.21669 2.52086C6.44767 1.55959 5.28338 1 4.05234 1C1.8143 1 0 2.8143 0 5.05234V5.24264C0 6.36786 0.44699 7.44699 1.24264 8.24264Z" fill="#ffffff"></path> </g></svg>
+                        <p>23</p>
+                    </div>
+                    <div class="stat">
+                        <svg fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1662.178 0v1359.964h-648.703l-560.154 560.154v-560.154H0V0h1662.178ZM906.794 755.55H453.32v117.53h453.473V755.55Zm302.063-302.365H453.32v117.529h755.536V453.185Z" fill-rule="evenodd"></path> </g></svg>
+                        <p>3</p>
+                    </div>
+                    <div class="stat sport">
+                        <svg
+                        viewBox="0 0 48 48"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="#0000000"
+                        stroke="#0000000"
+                      >
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <title>sports-soccer</title>
+                          <g id="Layer_2" data-name="Layer 2">
+                            <g id="invisible_box" data-name="invisible box">
+                              <rect width="48" height="48" fill="none"></rect>
+                            </g>
+                            <g id="Q3_icons" data-name="Q3 icons">
+                              <g>
+                                <polygon
+                                  points="17.5 21.6 20 29 28 29 30.5 21.6 24 17 17.5 21.6"
+                                ></polygon>
+                                <path
+                                  d="M45.5,19.1A22.1,22.1,0,0,0,24,2a21.2,21.2,0,0,0-4.9.6A22,22,0,0,0,24,46a28.1,28.1,0,0,0,4.9-.5A22.1,22.1,0,0,0,45.5,19.1Zm-7,15.6-1.1-3.3H29.5l-2.6,7.6,2.8,2-1.7.5a18.1,18.1,0,0,1-4,.4,17.9,17.9,0,0,1-5.7-.9l2.8-2-2.6-7.6H10.6L9.5,34.7a17,17,0,0,1-3-6.7A14.8,14.8,0,0,1,6,23.9l2.8,2,6.3-4.8-2.3-7.6H9.4a18.3,18.3,0,0,1,9.2-6.6l-1.1,3.2L24,14.7l6.5-4.6L29.4,6.8a18.6,18.6,0,0,1,9.3,6.7H35.2l-2.3,7.6,6.3,4.8L42,23.8A18.9,18.9,0,0,1,38.5,34.7Z"
+                                ></path>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+            </article>
                         </c:forEach>
                     </div>
                 </c:if>
@@ -34,7 +90,7 @@
                 </c:if>
             </main>
             <aside>
-                <a class="create-post" href="./views/create-post.jsp">
+                <a class="create-post" href="${pageContext.request.contextPath}/views/create-post.jsp">
                     <svg
                         fill="#000000"
                         viewBox="0 0 512 512"
