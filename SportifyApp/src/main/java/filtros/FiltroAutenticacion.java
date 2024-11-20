@@ -23,9 +23,8 @@ import javax.servlet.http.HttpSession;
  * @author carlo
  */
 public class FiltroAutenticacion implements Filter {
-    
     private static final boolean debug = true;
-    private static final String[] urlPublicas = {"login", "styles/", "signup", "registro", "home", "views/login.jsp", "views/signup.jsp"};
+    private static final String[] urlPublicas = {"login", "styles/", "signup", "registro", "views/login.jsp", "views/signup.jsp"};
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
