@@ -6,12 +6,18 @@ package servlets;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+
+import DAOs.PostDAO;
 import control.Fachada;
 import control.IFachada;
 import dominio.Post;
 import dominio.Usuario;
+
 import java.io.File;
 import java.io.FileOutputStream;
+
+import dominio.Usuario.Rol;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,7 +41,6 @@ import utils.CloudinaryConfig;
  *
  * @author carlo
  */
-
 @MultipartConfig
 @WebServlet(name = "posts", urlPatterns = {"/posts"})
 public class Posts extends HttpServlet {
@@ -55,16 +60,16 @@ public class Posts extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("INSIDE GET POSTS");
-//        Fachada fachada = new Fachada();
-//        try {
-//            List<Post> posts = fachada.obtenerTodosLosPosts();
-//            request.setAttribute("posts", posts);
-//            request.getRequestDispatcher("/WEB-INF/posts.jsp").forward(request, response);
-//            
-//        } catch(Exception e) {
-//            System.out.println("error while fetching postssss");
-//            e.printStackTrace();
-//        }
+        Fachada fachada = new Fachada();
+        try {
+            List<Post> posts = fachada.obtenerTodosLosPosts();
+            request.setAttribute("posts", posts);
+            request.getRequestDispatcher("/WEB-INF/posts.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            System.out.println("error while fetching postssss");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -99,13 +104,12 @@ public class Posts extends HttpServlet {
         Calendar createdAt = Calendar.getInstance();
         post.setFechaHoraCreacion(createdAt);
         post.setAutor(author);
-        
+
         Part filePart = request.getPart("image");
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             File tempFile = File.createTempFile("upload-", fileName);
-            try (InputStream fileContent = filePart.getInputStream();
-                 FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+            try (InputStream fileContent = filePart.getInputStream(); FileOutputStream outputStream = new FileOutputStream(tempFile)) {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 while ((bytesRead = fileContent.read(buffer)) != -1) {
@@ -114,8 +118,8 @@ public class Posts extends HttpServlet {
             }
             try {
                 Cloudinary cloudinary = CloudinaryConfig.getCloudinaryInstance();
-                Map uploadResult = cloudinary.uploader().upload(tempFile, 
-                    ObjectUtils.asMap("public_id", "post_images/" + fileName));
+                Map uploadResult = cloudinary.uploader().upload(tempFile,
+                        ObjectUtils.asMap("public_id", "post_images/" + fileName));
                 String imageUrl = (String) uploadResult.get("url");
                 post.setFoto(imageUrl);
                 tempFile.delete();
@@ -133,12 +137,13 @@ public class Posts extends HttpServlet {
 
         try {
             fachada.agregarPost(post);
-            response.sendRedirect(request.getContextPath() + "/home");
+            response.sendRedirect(request.getContextPath() + "/principal");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "An error occurred while creating the post");
-            request.getRequestDispatcher("/createPost.jsp").forward(request, response);
+            request.getRequestDispatcher("/create-Post.jsp").forward(request, response);
         }
+
     }
 
     /**

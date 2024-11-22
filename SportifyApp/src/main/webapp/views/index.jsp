@@ -21,6 +21,12 @@
                 <c:if test="${not empty posts}">
                     <div class="posts">
                         <c:forEach var="post" items="${posts}">
+                            <c:if test="${user.role == Rol.ADMIN}">
+                                    <form method="post" action="${pageContext.request.contextPath}/deletePost" class="delete-form">
+                                        <input type="hidden" name="postId" value="${post.idPost}" />
+                                        <button type="submit" class="delete normal-post">✕</button>
+                                    </form>
+                                </c:if>
                            <article class="post normal-post">
                 <header>
                     <img src="${post.autor.urlAvatar}" alt="Profile Picture" />

@@ -136,6 +136,32 @@ a.create-post:hover {
     border-radius: 0.5em;
 }
 
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.delete-form {
+    margin-left: 5px;
+}
+
+.delete-link {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.delete-link:hover {
+    color: darkred;
+}
+
 .pinned-post header {
     display: flex;
     flex-direction: row;
@@ -218,7 +244,7 @@ main a {
     flex-direction: row;
     justify-content: start;
     align-items: center;
-    gap: 1em;    
+    gap: 1em;
 }
 
 .normal-post .content {
@@ -240,6 +266,3 @@ main a {
     border-radius: 0.5em;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-
-
-

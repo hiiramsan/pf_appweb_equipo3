@@ -64,7 +64,7 @@ nav {
     transition: 0.3s ease;
 }
 
-.nav-links li a:hover svg { 
+.nav-links li a:hover svg {
     fill: var(--red-color);
 }
 .auth-links {

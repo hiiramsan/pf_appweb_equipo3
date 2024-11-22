@@ -34,7 +34,7 @@ public class Usuario implements Serializable {
     @Column(nullable = false, length = 50)
     private String apellido;
 
-    @Column(nullable = false, length = 255, unique=true)
+    @Column(nullable = false, length = 255, unique = true)
     private String correo;
 
     @Column(nullable = false, length = 255)
@@ -69,7 +69,7 @@ public class Usuario implements Serializable {
     }
 
     public enum Rol {
-        ADMINISTRADOR, NORMAL
+        ADMIN, NORMAL
     }
 
     public int getIdUsuario() {
@@ -168,7 +168,4 @@ public class Usuario implements Serializable {
         this.estado = estado;
     }
 
-    
-
-    
 }
