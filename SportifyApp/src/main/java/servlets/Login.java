@@ -49,11 +49,9 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         System.out.println("im in doPost Login");
 
-        // Sanitizar entradas
-        String email = sanitizeInput(request.getParameter("email"));
-        String password = sanitizeInput(request.getParameter("password"));
+        String email = validarStrings(request.getParameter("email"));
+        String password = validarStrings(request.getParameter("password"));
 
-        // Validar email
         if (!isValidEmail(email)) {
             response.sendRedirect(request.getContextPath() + "/views/login.jsp?error=invalidEmail");
             return;
@@ -72,14 +70,13 @@ public class Login extends HttpServlet {
         }
     }
     
-    private String sanitizeInput(String input) {
-        if (input != null) {
-            
-            return input.replaceAll("[<>\"'&;]", "")
-                    .replaceAll("\\s+", " ")
-                    .trim();
-        }
-        return null;
+    private String validarStrings(String input) {
+    if (input == null) return "";
+    return input.replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("\"", "&quot;")
+                .replaceAll("'", "&#x27;")
+                .replaceAll("&", "&amp;");
     }
     
     private boolean isValidEmail(String email) {

@@ -14,6 +14,8 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -62,45 +64,107 @@ public class Registro extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println("ESTOY EN REGISTRO");
+            System.out.println("ESTOY EN REGISTRO");
 
-        String nombre = request.getParameter("first-name");
-        String apellido = request.getParameter("last-name");
-        String correo = request.getParameter("email");
-        String contrasenia = request.getParameter("password");
-        String telefono = request.getParameter("phone");
-        String ciudad = request.getParameter("city");
-        String fechaNacimientoStr = request.getParameter("dob");
-        String generoStr = request.getParameter("gender");
+            Map<String, String> errores = new HashMap<>();
+            String nombre = validarStrings(request.getParameter("first-name"));
+            if (nombre == null || !nombre.matches("[a-zA-Z]+")) {
+                errores.put("first-name", "El nombre solo debe contener letras.");
+            }
 
-        Calendar fechaNacimiento = Calendar.getInstance();
-        fechaNacimiento.setTime(java.sql.Date.valueOf(fechaNacimientoStr));
-        Usuario.Genero genero = Usuario.Genero.valueOf(generoStr.toUpperCase());
+            String apellido = validarStrings(request.getParameter("last-name"));
+            if (apellido == null || !apellido.matches("[a-zA-Z]+")) {
+                errores.put("last-name", "El apellido solo debe contener letras.");
+            }
 
-        Usuario usuario = new Usuario();
-        usuario.setNombre(nombre);
-        usuario.setApellido(apellido);
-        usuario.setCorreo(correo);
-        usuario.setContrasenia(contrasenia);
-        usuario.setTelefono(telefono);
-        usuario.setCiudad(ciudad);
-        usuario.setFechaNacimiento(fechaNacimiento);
-        usuario.setGenero(genero);
-        usuario.setRol(Rol.NORMAL);
+            String correo = validarStrings(request.getParameter("email"));
+            if (correo == null || !correo.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                errores.put("email", "El correo electrónico no es válido.");
+            }
 
-        IFachada fachada = new Fachada();
-        try {
-            fachada.agregarUsuario(usuario);
-            Usuario newUser = fachada.consultarUsuarioPorEmail(correo);
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", newUser);
-            response.sendRedirect(request.getContextPath() + "/views/login.jsp");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
+            String contrasenia = validarStrings(request.getParameter("password"));
+            String confirmContrasenia = validarStrings(request.getParameter("confirm-password"));
+            if (contrasenia == null || contrasenia.length() < 8 || !contrasenia.matches("[a-zA-Z0-9]+")) {
+                errores.put("password", "La contraseña debe tener al menos 8 caracteres alfanuméricos.");
+            } else if (!contrasenia.equals(confirmContrasenia)) {
+                errores.put("confirm-password", "Las contraseñas no coinciden.");
+            }
+
+            String telefono = validarStrings(request.getParameter("phone"));
+            if (telefono == null || !telefono.matches("\\d+")) {
+                errores.put("phone", "El teléfono debe contener solo números.");
+            }
+
+            String ciudad = validarStrings(request.getParameter("city"));
+            if (ciudad == null || ciudad.trim().isEmpty()) {
+                errores.put("city", "La ciudad es obligatoria.");
+            }
+
+            String fechaNacimientoStr = validarStrings(request.getParameter("dob"));
+            Calendar fechaNacimiento = null;
+            try {
+                fechaNacimiento = Calendar.getInstance();
+                fechaNacimiento.setTime(java.sql.Date.valueOf(fechaNacimientoStr));
+            } catch (Exception e) {
+                errores.put("dob", "La fecha de nacimiento no es válida.");
+            }
+
+            String generoStr = validarStrings(request.getParameter("gender"));
+            Usuario.Genero genero = null;
+            try {
+                genero = Usuario.Genero.valueOf(generoStr.toUpperCase());
+            } catch (Exception e) {
+                errores.put("gender", "El género seleccionado no es válido.");
+            }
+
+            if (!errores.isEmpty()) {
+                // Si hay errores, vuelve a la página de registro con mensajes
+                request.setAttribute("errores", errores);
+                request.getRequestDispatcher("/views/signup.jsp").forward(request, response);
+                return;
+            }
+
+            // Crear usuario si no hay errores
+            Usuario usuario = new Usuario();
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setCorreo(correo);
+            usuario.setContrasenia(contrasenia);
+            usuario.setTelefono(telefono);
+            usuario.setCiudad(ciudad);
+            usuario.setFechaNacimiento(fechaNacimiento);
+            usuario.setGenero(genero);
+            usuario.setRol(Rol.NORMAL);
+
+            IFachada fachada = new Fachada();
+            try {
+                fachada.agregarUsuario(usuario);
+                Usuario newUser = fachada.consultarUsuarioPorEmail(correo);
+
+                // Crear sesión y redirigir al login
+                HttpSession session = request.getSession();
+                session.setAttribute("usuario", newUser);
+                response.sendRedirect(request.getContextPath() + "/views/login.jsp");
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("errorGeneral", "Ocurrió un error al registrar el usuario. Inténtalo de nuevo.");
+                request.getRequestDispatcher("/views/signup.jsp").forward(request, response);
+            }
         }
-
+        private String validarStrings(String input) {
+        if (input == null) {
+            return "";
+        }
+        return input.replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("\"", "&quot;")
+                .replaceAll("'", "&#x27;")
+                .replaceAll("&", "&amp;");
     }
+    
+    
+    
+    
 
     /**
      * Returns a short description of the servlet.
