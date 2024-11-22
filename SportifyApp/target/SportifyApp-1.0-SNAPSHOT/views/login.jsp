@@ -35,10 +35,9 @@
                 <input type="submit" value="Log in">
                 <p>Don’t have an account? <a href="./signup.jsp">Sign Up, It’s Free!</a></p>
             </form>
-
         </div>
         <div class="contenedor02">
-            
+
             <img src="${pageContext.request.contextPath}/img/wp1936496.png" alt="">
             <p>The place for <span>sports</span>, the place for <span>you</span></p>
         </div>

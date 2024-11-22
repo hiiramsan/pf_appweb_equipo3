@@ -48,8 +48,15 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("im in doPost Login");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+
+        String email = validarStrings(request.getParameter("email"));
+        String password = validarStrings(request.getParameter("password"));
+
+        if (!isValidEmail(email)) {
+            response.sendRedirect(request.getContextPath() + "/views/login.jsp?error=invalidEmail");
+            return;
+        }
+        
         Fachada fachada = new Fachada();
         Usuario usuario = fachada.consultarUsuarioPorEmail(email);
 
@@ -57,21 +64,28 @@ public class Login extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
             session.setAttribute("usuarioNombre", usuario.getNombre());
-            response.sendRedirect(request.getContextPath()+"/home");
+            response.sendRedirect(request.getContextPath() + "/home");
         } else {
             response.sendRedirect(request.getContextPath() + "/views/login.jsp?error=true");
-
         }
     }
+    
+    private String validarStrings(String input) {
+    if (input == null) return "";
+    return input.replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("\"", "&quot;")
+                .replaceAll("'", "&#x27;")
+                .replaceAll("&", "&amp;");
+    }
+    
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        return email != null && email.matches(emailRegex);
+    }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }

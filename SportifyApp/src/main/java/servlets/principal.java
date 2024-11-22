@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "principal", urlPatterns = {"/principal"})
 public class principal extends HttpServlet {
 
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -47,6 +46,29 @@ public class principal extends HttpServlet {
         } catch (Exception e) {
             System.out.println("ocurrio un error");
         }
+
+        try {
+            // Paso 1: Recuperar el ID del post desde la solicitud
+            int postId = Integer.parseInt(request.getParameter("postId"));
+
+            // Paso 2: Instanciar la fachada
+            Fachada fachada = new Fachada();
+
+            // Paso 3: Eliminar el post
+            Post post = fachada.consultarPost(postId); // Busca el objeto Post por ID
+            if (post != null) {
+                fachada.eliminarPost(post); // Elimina el post
+                System.out.println("Post eliminado correctamente.");
+            } else {
+                System.out.println("No se encontró el post con ID: " + postId);
+            }
+
+            // Paso 4: Redirigir o actualizar la página
+            response.sendRedirect(request.getContextPath() + "/index.jsp"); // Redirige al índice o página deseada
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error al intentar eliminar el post.");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -60,8 +82,7 @@ public class principal extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+
     }
 
     /**

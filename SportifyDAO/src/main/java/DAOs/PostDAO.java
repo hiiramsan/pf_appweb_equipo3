@@ -58,7 +58,6 @@ public class PostDAO implements IPostDAO {
         }
     }
 
-    @Override
     public void eliminarPost(Post post) {
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -66,19 +65,27 @@ public class PostDAO implements IPostDAO {
             Post postToRemove = em.find(Post.class, post.getIdPost());
             if (postToRemove != null) {
                 em.remove(postToRemove);
+                System.out.println("Post con ID " + post.getIdPost() + " eliminado.");
+            } else {
+                System.out.println("Post no encontrado para eliminar.");
             }
             transaction.commit();
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e; // Lanza la excepción para manejarla en otro lugar
+            e.printStackTrace();
         }
     }
 
     @Override
     public Post consultarPost(int id) {
-        return em.find(Post.class, id);
+        try {
+            return em.find(Post.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -97,7 +104,7 @@ public class PostDAO implements IPostDAO {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            throw e; 
+            throw e;
         }
     }
 
@@ -112,8 +119,4 @@ public class PostDAO implements IPostDAO {
             return null;
         }
     }
- 
-    
-    
-    
 }
