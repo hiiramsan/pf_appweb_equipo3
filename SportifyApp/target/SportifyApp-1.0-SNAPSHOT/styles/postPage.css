@@ -121,6 +121,7 @@ article p {
     gap: 1em;
     color: #fff;
     margin: 4em 0;
+    width: 100%;
 }
 
 .comments textarea {
