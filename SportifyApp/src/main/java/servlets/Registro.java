@@ -64,8 +64,6 @@ public class Registro extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-            System.out.println("ESTOY EN REGISTRO");
-
             Map<String, String> errores = new HashMap<>();
             String nombre = validarStrings(request.getParameter("first-name"));
             if (nombre == null || !nombre.matches("[a-zA-Z]+")) {
@@ -117,12 +115,12 @@ public class Registro extends HttpServlet {
                 errores.put("gender", "El género seleccionado no es válido.");
             }
 
-            if (!errores.isEmpty()) {
-                // Si hay errores, vuelve a la página de registro con mensajes
-                request.setAttribute("errores", errores);
-                request.getRequestDispatcher("/views/signup.jsp").forward(request, response);
-                return;
-            }
+//            if (!errores.isEmpty()) {
+//                // Si hay errores, vuelve a la página de registro con mensajes
+//                request.setAttribute("errores", errores);
+//                request.getRequestDispatcher("/views/signup.jsp").forward(request, response);
+//                return;
+//            }
 
             // Crear usuario si no hay errores
             Usuario usuario = new Usuario();
@@ -140,17 +138,17 @@ public class Registro extends HttpServlet {
             try {
                 fachada.agregarUsuario(usuario);
                 Usuario newUser = fachada.consultarUsuarioPorEmail(correo);
-
-                // Crear sesión y redirigir al login
                 HttpSession session = request.getSession();
                 session.setAttribute("usuario", newUser);
-                response.sendRedirect(request.getContextPath() + "/views/login.jsp");
+                response.sendRedirect(request.getContextPath()+"/views/uploadProfilePicture.jsp");
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("errorGeneral", "Ocurrió un error al registrar el usuario. Inténtalo de nuevo.");
                 request.getRequestDispatcher("/views/signup.jsp").forward(request, response);
             }
         }
+    
+        // evitar xss atack 
         private String validarStrings(String input) {
         if (input == null) {
             return "";

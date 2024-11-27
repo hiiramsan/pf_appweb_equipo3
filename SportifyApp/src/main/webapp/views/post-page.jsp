@@ -11,7 +11,7 @@
     </head>
     <body>
         <%@ include file="../fragments/Header.jsp" %>
-        
+
         <div class="content-wrapper">
             <main class="post-detail">
                 <article class="post">
@@ -26,14 +26,14 @@
                             <span class="date">${formattedDate}</span>
                         </div>
                     </div>
-                    
+
                     <div class="post-content">
                         ${post.contenido}
                     </div>
                 </article>
                 <section class="comments">
                     <h2>Comments (${comentarios.size()})</h2>
-                    
+
                     <c:if test="${not empty sessionScope.usuario}">
                         <form class="comment-form" action="${pageContext.request.contextPath}/postpage" method="POST">
                             <input type="hidden" name="postId" value="${post.idPost}">
@@ -41,7 +41,7 @@
                             <button type="submit">Post Comment</button>
                         </form>
                     </c:if>
-                    
+
                     <div class="comments-list">
                         <c:forEach var="comentario" items="${comentarios}">
                             <div class="comment">
@@ -56,14 +56,14 @@
                                 <p class="comment-content">${comentario.contenido}</p>
                             </div>
                         </c:forEach>
-                        
+
                         <c:if test="${empty comentarios}">
                             <p class="no-comments">No comments yet. Be the first to comment!</p>
                         </c:if>
                     </div>
                 </section>
             </main>
-            
+
             <aside>
                 <a href="${pageContext.request.contextPath}/home" class="back-button">
                     Back to Posts

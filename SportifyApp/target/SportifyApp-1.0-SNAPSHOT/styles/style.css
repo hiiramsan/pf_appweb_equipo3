@@ -237,6 +237,7 @@ main a {
 .normal-post {
     display: flex;
     flex-direction: column;
+    width: 32em;
 }
 
 .normal-post header {

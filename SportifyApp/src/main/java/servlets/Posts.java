@@ -137,7 +137,7 @@ public class Posts extends HttpServlet {
 
         try {
             fachada.agregarPost(post);
-            response.sendRedirect(request.getContextPath() + "/principal");
+            response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "An error occurred while creating the post");

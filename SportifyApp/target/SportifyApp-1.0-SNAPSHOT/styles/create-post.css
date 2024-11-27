@@ -8,142 +8,92 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root {
+    --dark-color: #212121;
+    --gray-color: #2F2F2F;
+    --red-color: #E94F37;
+    --light-gray-color: #B2ABAB;
 }
 
-:root {
-  --dark-color: #212121;
-  --gray-color: #2f2f2f;
-  --red-color: #e94f37;
-  --light-gray-color: #b2abab;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  background-color: var(--dark-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--dark-color);
+    color: #333;
+    line-height: 1.6;
 }
 
 .top {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2em;
-  font-family: "Inter", sans-serif;
-  color: #fff;
-  margin-top: 8em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    padding-top: 120px;
+    background-color: var(--dark-color);
+    color: white;
 }
 
-.top a svg {
-  width: 2em;
-  height: auto;
-  fill: #fff;
+.top a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.top svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+    transition: transform 0.3s ease;
+}
+
+.top a:hover svg {
+    transform: translateX(-5px);
+}
+
+.top h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    flex-grow: 1;
 }
 
 main {
-  min-height: 70vh;
-  margin: 0 20%;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: var(--gray-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .option-btns {
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
-  align-items: center;
-  padding: 1em;
-  color: #fff;
-  font-family: "Inter", sans-serif;
-  float: right;
-  gap: 1em;
-}
-
-.option-btns svg {
-  width: 1.5em;
-  height: auto;
-  fill: #fff;
-}
-
-.option-btns a {
-  text-decoration: none;
-  color: #fff;
-}
-
-.option-btns .option {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.3em;
-  padding: 0 1em;
-  height: 2.5em;
-  border-radius: 0.5em;
-  background-color: var(--gray-color);
-  color: #fff;
-  font-family: "Inter", sans-serif;
-  cursor: pointer;
-  font-size: 1em;
-  border: none;
-}
-
-input#image-upload {
-  display: none;
-}
-
-.option-btns #post {
-  background-color: var(--red-color);
-}
-
-.entry {
-  display: flex;
-  flex-direction: column;
-  border-top: 0.3em solid var(--gray-color);
-  gap: 2em;
-}
-
-.entry input {
-  margin-top: 1em;
-  outline: none;
-  color: #fff;
-  border: none;
-  background: none;
-  font-family: "Inter", sans-serif;
-  font-size: 1em;
-}
-
-.entry input#title {
-  font-size: 2em;
-  font-weight: 700;
-  margin-left: 0;
-}
-
-.entry textarea {
-  padding: 1em 0;
-  outline: none;
-  color: #fff;
-  border: none;
-  background: none;
-  font-family: "Inter", sans-serif;
-  font-size: 1em;
-  min-height: 10em;
-  resize: vertical;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .select-wrapper {
     position: relative;
-    width: 250px;
+    flex-grow: 1;
 }
 
 .select-wrapper::after {
-    content: '\25BC';
+    content: '▼';
     position: absolute;
     top: 50%;
-    color: #fff;
-    right: 15px;
+    right: 10px;
     transform: translateY(-50%);
     pointer-events: none;
 }
@@ -151,33 +101,100 @@ input#image-upload {
 select {
     appearance: none;
     -webkit-appearance: none;
+    -moz-appearance: none;
     width: 100%;
     padding: 10px 15px;
-    font-size: 16px;
-    border: none;
+    border: 2px solid var(--dark-color);
     border-radius: 5px;
-    background-color: var(--gray-color);
+    background-color: var(--light-gray-color);
+    font-size: 1rem;
     cursor: pointer;
-    outline: none;
-    color: #fff;
 }
 
 select:focus {
     outline: none;
-    border-color: var(--red-color);
-    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+    border-color: #2980b9;
 }
 
-option {
+input[type="file"] {
+    display: block;
+    width: 100%;
     padding: 10px;
-    background-color: var(--gray-color);
-    font-size: 1em;
-    color: #fff;
+    border: 2px solid var(--dark-color);
+    border-radius: 5px;
+    background-color: var(--light-gray-color);
+    cursor: pointer;
 }
 
-.sports-icon {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-    margin-right: 10px;
+input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+    width: 0;
+}
+
+input[type="file"]::before {
+    content: 'Select image';
+    display: inline-block;
+    background: #3498db;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 12px;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+}
+
+input[type="file"]:hover::before {
+    background-color: #2980b9;
+}
+
+.option {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.option:hover {
+    background-color: #27ae60;
+}
+
+.entry {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: #2980b9;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 200px;
+}
+
+@media (max-width: 600px) {
+    .option-btns {
+        flex-direction: column;
+    }
+
+    main {
+        margin: 15px;
+        padding: 20px;
+    }
 }
