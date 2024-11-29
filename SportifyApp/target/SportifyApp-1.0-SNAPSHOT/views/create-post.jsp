@@ -36,18 +36,50 @@
                         </select>
                     </div>
 
-                    <label for="image">Upload Image:</label>
+                    <label>Upload Image:</label>
                     <input type="file" name="image" id="image" accept="image/*">
-
-                    <button class="option" id="post" type="submit">
-                        Post
-                    </button>
                 </div>
                 <div class="entry">
                     <input type="text" name="title" id="title" placeholder="Title..." required>
                     <textarea name="content" id="content" placeholder="Write here..." rows="20" required></textarea>
                 </div>
+                <button class="option" id="post" type="submit">
+                    Post
+                </button>
             </form>
         </main>
+                
+            <script>
+                // JavaScript to handle the form submission using Fetch API
+                document.getElementById("postForm").addEventListener("submit", function(event) {
+                    event.preventDefault(); // Prevent default form submission
+
+                    // Prepare FormData
+                    const formData = new FormData();
+                    formData.append("title", document.getElementById("title").value);
+                    formData.append("content", document.getElementById("content").value);
+                    formData.append("sport", document.getElementById("sport").value);
+                    formData.append("image", document.getElementById("image").files[0]);
+
+                    // Use Fetch API to send data to the server
+                    fetch("${pageContext.request.contextPath}/posts", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.json()) // Expect JSON response
+                    .then(data => {
+                        if (data.success) {
+                            alert("Post created successfully!");
+                            // Optionally, redirect or clear the form
+                        } else {
+                            alert("Error creating post: " + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("An error occurred while creating the post.");
+                    });
+                });
+            </script>
     </body>
 </html>

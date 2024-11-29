@@ -21,31 +21,28 @@
                 <c:if test="${not empty posts}">
                     <div class="posts">
                         <c:forEach var="post" items="${posts}">
-                            <c:if test="${usuario.rol == Rol.ADMIN}">
-                                <form method="post" action="${pageContext.request.contextPath}/deletePost" class="delete-form">
-                                    <input type="hidden" name="postId" value="${post.idPost}" />
-                                    <button type="submit" class="delete normal-post">Delete post</button>
-                                </form>
+                            <c:if test="${usuario.rol == 'ADMIN'}">
+                                <button class="delete-post-button" data-post-id="${post.idPost}">Eliminar post</button>
                             </c:if>
                             <a href="${pageContext.request.contextPath}/postpage?id=${post.idPost}">
                                 <article class="post normal-post">
-                                <header>
-                                    <img src="${post.autor.urlAvatar}" alt="Profile Picture" />
-                                    <p>${post.autor.nombre}</p>
-                                    <p class="light-gray">• <fmt:formatDate value="${post.fechaHoraCreacion.time}" pattern="dd/MM/yyyy"/></p>
-                                </header>
-                                <section class="content">
-                                    <div class="left">
-                                        <h2>${post.titulo}</h2>
+                                    <header>
+                                        <img src="${post.autor.urlAvatar}" alt="Profile Picture" />
+                                        <p>${post.autor.nombre}</p>
+                                        <p class="light-gray">• <fmt:formatDate value="${post.fechaHoraCreacion.time}" pattern="dd/MM/yyyy"/></p>
+                                    </header>
+                                    <section class="content">
+                                        <div class="left">
+                                            <h2>${post.titulo}</h2>
                                         <p class="light-gray">
                                             ${post.contenido}
                                         </p>
-                                    </div>
-                                    <div class="right">
-                                        <img src="${post.foto}" alt="img">
-                                    </div>
-                                </section>
-                            </article>
+                                        </div>
+                                        <div class="right">
+                                        <img src="${post.foto}" alt="img post" />
+                                        </div>
+                                    </section>
+                                </article>
                             </a>
                         </c:forEach>
                     </div>
@@ -124,5 +121,50 @@
                 </div>
             </aside>
         </div>
+
+        <script>
+            class PostManager {
+                constructor() {
+                    this.deleteButtons = document.querySelectorAll('.delete-post-button');
+                    this.init();
+                }
+                init() {
+                    this.deleteButtons.forEach(button => {
+                        button.addEventListener('click', this.confirmDelete.bind(this));
+                    });
+                }
+                async confirmDelete(event) {
+                    event.preventDefault();
+                    const postId = event.target.dataset.postId;
+
+                    // Confirmar con el usuario
+                    const userConfirmed = confirm('¿Estás seguro de que quieres eliminar este post?');
+                    if (!userConfirmed) return;
+
+                    try {
+                        const response = await fetch('/principal', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: new URLSearchParams({
+                                postId: postId,
+                            }),
+                        });
+
+                        const data = await response.json();
+                        if (data.status === 'success') {
+                            alert(data.message);
+                            event.target.closest('article').remove();
+                        } else {
+                            alert(data.message);
+                        }
+                    } catch (error) {
+                        alert('Hubo un error al intentar eliminar el post.');
+                    }
+                }
+            }
+            document.addEventListener('DOMContentLoaded', () => new PostManager());
+        </script>
     </body>
 </html>

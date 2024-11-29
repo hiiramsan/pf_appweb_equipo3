@@ -115,3 +115,45 @@ form p {
 form a {
     color: #e94f37;
 }
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.form-column .form-group {
+    margin-bottom: 1.5em;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 0.8em;
+    margin-top: 0.2em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.8em 1.5em;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 1em;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.submit-container p {
+    margin-top: 1em;
+    text-align: center;
+}

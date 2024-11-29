@@ -4,6 +4,9 @@
  */
 package servlets;
 
+import DAOs.PostDAO;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import control.Fachada;
 import dominio.Post;
 import java.io.IOException;
@@ -13,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 
 /**
  *
@@ -73,30 +77,39 @@ public class DeletePost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+
         try {
-            String postIdParam = request.getParameter("postId");
-            System.out.println("postId recibido: " + postIdParam);
+            BufferedReader reader = request.getReader();
+            Gson gson = new Gson();
+            Post post = gson.fromJson(reader, Post.class);
 
-            int postId = Integer.parseInt(postIdParam);
-            System.out.println("ID convertido a int: " + postId);
-
-            Fachada fachada = new Fachada();
-            Post post = fachada.consultarPost(postId);
-            if (post != null) {
-                fachada.eliminarPost(post);
-                System.out.println("Post eliminado correctamente.");
-            } else {
-                System.out.println("No se encontró un post con ID: " + postId);
+            if (post == null || post.getIdPost() == 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                out.print("{\"status\":\"error\", \"message\":\"Datos del post no válidos.\"}");
+                return;
             }
 
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
-        } catch (NumberFormatException e) {
-            System.out.println("El ID proporcionado no es válido.");
+            PostDAO postDAO = new PostDAO();
+            postDAO.eliminarPost(post);
+
+            response.setStatus(HttpServletResponse.SC_OK);
+            out.print("{\"status\":\"success\", \"message\":\"Post eliminado correctamente.\"}");
+
+        } catch (JsonSyntaxException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.print("{\"status\":\"error\", \"message\":\"Formato de JSON inválido.\"}");
+        } catch (RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            out.print("{\"status\":\"error\", \"message\":\"Error al eliminar el post.\"}");
             e.printStackTrace();
         } catch (Exception e) {
-            System.out.println("Error al eliminar el post.");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            out.print("{\"status\":\"error\", \"message\":\"Ocurrió un error inesperado.\"}");
             e.printStackTrace();
         }
+        
     }
 
     /**

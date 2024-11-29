@@ -19,73 +19,73 @@
                 <div class="form-column">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="${param.email}" placeholder="example@mail.com" required autofocus>
-                        <c:if test="${errorMap['email'] != null}">
-                            <p style="color: red;">${errorMap['email']}</p>
+                        <c:if test="${not empty errorMap['email']}">
+                            <p class="error">${errorMap['email']}</p>
                         </c:if>
+                        <input type="email" id="email" name="email" value="${param.email}" placeholder="example@mail.com" required autofocus>
                     </div>
                     <div class="form-group">
                         <label for="first-name">First name</label>
-                        <input type="text" id="first-name" name="first-name" value="${param['first-name']}" placeholder="Your first name" required>
-                        <c:if test="${errorMap['first-name'] != null}">
-                            <p style="color: red;">${errorMap['first-name']}</p>
+                        <c:if test="${not empty errorMap['first-name']}">
+                            <p class="error">${errorMap['first-name']}</p>
                         </c:if>
+                        <input type="text" id="first-name" name="first-name" value="${param['first-name']}" placeholder="Your first name" required>
                     </div>
                     <div class="form-group">
                         <label for="last-name">Last name</label>
-                        <input type="text" id="last-name" name="last-name" value="${param['last-name']}" placeholder="Your last name" required>
-                        <c:if test="${errorMap['last-name'] != null}">
-                            <p style="color: red;">${errorMap['last-name']}</p>
+                        <c:if test="${not empty errorMap['last-name']}">
+                            <p class="error">${errorMap['last-name']}</p>
                         </c:if>
+                        <input type="text" id="last-name" name="last-name" value="${param['last-name']}" placeholder="Your last name" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Write a secret password" required>
-                        <c:if test="${errorMap['password'] != null}">
-                            <p style="color: red;">${errorMap['password']}</p>
+                        <c:if test="${not empty errorMap['password']}">
+                            <p class="error">${errorMap['password']}</p>
                         </c:if>
+                        <input type="password" id="password" name="password" placeholder="Write a secret password" required>
                     </div>
                     <div class="form-group">
                         <label for="confirm-password">Confirm password</label>
-                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Rewrite the password" required>
-                        <c:if test="${errorMap['confirm-password'] != null}">
-                            <p style="color: red;">${errorMap['confirm-password']}</p>
+                        <c:if test="${not empty errorMap['confirm-password']}">
+                            <p class="error">${errorMap['confirm-password']}</p>
                         </c:if>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Rewrite the password" required>
                     </div>
                 </div>
                 <div class="form-column">
                     <div class="form-group">
                         <label for="phone">Phone</label>
-                        <input type="tel" id="phone" name="phone" value="${param.phone}" placeholder="Your phone number" required>
-                        <c:if test="${errorMap['phone'] != null}">
-                            <p style="color: red;">${errorMap['phone']}</p>
+                        <c:if test="${not empty errorMap['phone']}">
+                            <p class="error">${errorMap['phone']}</p>
                         </c:if>
+                        <input type="tel" id="phone" name="phone" value="${param.phone}" placeholder="Your phone number" required>
                     </div>
                     <div class="form-group">
                         <label for="city">City</label>
-                        <input type="text" id="city" name="city" value="${param.city}" placeholder="Your city" required>
-                        <c:if test="${errorMap['city'] != null}">
-                            <p style="color: red;">${errorMap['city']}</p>
+                        <c:if test="${not empty errorMap['city']}">
+                            <p class="error">${errorMap['city']}</p>
                         </c:if>
+                        <input type="text" id="city" name="city" value="${param.city}" placeholder="Your city" required>
                     </div>
                     <div class="form-group">
                         <label for="dob">Date of Birth</label>
-                        <input type="date" id="dob" name="dob" value="${param.dob}" required>
-                        <c:if test="${errorMap['dob'] != null}">
-                            <p style="color: red;">${errorMap['dob']}</p>
+                        <c:if test="${not empty errorMap['dob']}">
+                            <p class="error">${errorMap['dob']}</p>
                         </c:if>
+                        <input type="date" id="dob" name="dob" value="${param.dob}" required>
                     </div>
                     <div class="form-group">
                         <label for="gender">Gender</label>
+                        <c:if test="${not empty errorMap['gender']}">
+                            <p class="error">${errorMap['gender']}</p>
+                        </c:if>
                         <select id="gender" name="gender" required>
                             <option value="">Select gender</option>
                             <option value="MASCULINO" ${param.gender == 'MASCULINO' ? 'selected' : ''}>Male</option>
                             <option value="FEMENINO" ${param.gender == 'FEMENINO' ? 'selected' : ''}>Female</option>
                             <option value="NO_ESPECIFICADO" ${param.gender == 'NO_ESPECIFICADO' ? 'selected' : ''}>Prefiero no especificar</option>
                         </select>
-                        <c:if test="${errorMap['gender'] != null}">
-                            <p style="color: red;">${errorMap['gender']}</p>
-                        </c:if>
                     </div>
                 </div>
                 <div class="submit-container">

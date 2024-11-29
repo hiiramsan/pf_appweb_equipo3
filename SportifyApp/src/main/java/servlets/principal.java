@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.cloudinary.json.JSONObject;
 
 /**
  *
@@ -46,29 +47,6 @@ public class principal extends HttpServlet {
         } catch (Exception e) {
             System.out.println("ocurrio un error");
         }
-
-        try {
-            // Paso 1: Recuperar el ID del post desde la solicitud
-            int postId = Integer.parseInt(request.getParameter("postId"));
-
-            // Paso 2: Instanciar la fachada
-            Fachada fachada = new Fachada();
-
-            // Paso 3: Eliminar el post
-            Post post = fachada.consultarPost(postId); // Busca el objeto Post por ID
-            if (post != null) {
-                fachada.eliminarPost(post); // Elimina el post
-                System.out.println("Post eliminado correctamente.");
-            } else {
-                System.out.println("No se encontró el post con ID: " + postId);
-            }
-
-            // Paso 4: Redirigir o actualizar la página
-            response.sendRedirect(request.getContextPath() + "/index.jsp"); // Redirige al índice o página deseada
-        } catch (Exception e) {
-            System.out.println("Ocurrió un error al intentar eliminar el post.");
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -82,7 +60,38 @@ public class principal extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
+        try {
+            // Obtener el postId del parámetro de la solicitud
+            int postId = Integer.parseInt(request.getParameter("postId"));
+
+            Fachada fachada = new Fachada();
+            Post post = fachada.consultarPost(postId);
+            JSONObject jsonResponse = new JSONObject();
+
+            if (post != null) {
+                // Eliminar el post
+                fachada.eliminarPost(post);
+                jsonResponse.put("status", "success");
+                jsonResponse.put("message", "Post eliminado correctamente.");
+            } else {
+                jsonResponse.put("status", "error");
+                jsonResponse.put("message", "Post no encontrado.");
+            }
+
+            // Enviar la respuesta JSON al cliente
+            response.getWriter().write(jsonResponse.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("status", "error");
+            jsonResponse.put("message", "Error al eliminar el post.");
+            response.getWriter().write(jsonResponse.toString());
+        }
+    
     }
 
     /**

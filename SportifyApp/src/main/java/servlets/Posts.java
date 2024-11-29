@@ -125,7 +125,7 @@ public class Posts extends HttpServlet {
                 tempFile.delete();
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("problemas con la imagen ");
+                System.out.println("Problemas con la imagen");
                 return;
             }
         }
@@ -136,14 +136,25 @@ public class Posts extends HttpServlet {
         IFachada fachada = new Fachada();
 
         try {
+            // Guardar el post en la base de datos
             fachada.agregarPost(post);
-            response.sendRedirect(request.getContextPath() + "/home");
+
+            // Redirigir al listado de posts o al menú principal de publicaciones
+            response.sendRedirect(request.getContextPath() + "/views/index.jsp"); // Aquí cambia la ruta si es necesario
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "An error occurred while creating the post");
             request.getRequestDispatcher("/create-Post.jsp").forward(request, response);
         }
+    }
 
+    // Método para enviar una respuesta JSON
+    private void sendJsonResponse(HttpServletResponse response, boolean success, String message) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print("{\"success\": " + success + ", \"message\": \"" + message + "\"}");
+        out.flush();
     }
 
     /**

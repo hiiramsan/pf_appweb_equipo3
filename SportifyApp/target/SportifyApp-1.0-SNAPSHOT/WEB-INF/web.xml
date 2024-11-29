@@ -63,6 +63,7 @@
     <servlet-mapping>
         <servlet-name>principal</servlet-name>
         <url-pattern>/principal</url-pattern>
+        <url-pattern>/deletePost</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
