@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${post.titulo} - Sportify</title>
+        <title id="tituloPost"></title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/postPage.css">
     </head>
@@ -22,7 +22,7 @@
                 <article>
                     <div class="article-info">
                         <div class="left">
-                            <img src="https://unavatar.io/hiiramsan" alt="">
+                            <img id="avatarAutor" src="https://unavatar.io/hiiramsan" alt="">
                             <p>Posted by <a id="autorPost" href="">${post.autor.nombre}</a></p>
                             <p>• ${formattedDate}</p>
                         </div>
@@ -73,6 +73,12 @@
                         return response.json();
                     })
                     .then(post => {
+                        
+                        const avatarAutor = document.getElementById("avatarAutor");
+                        avatarAutor.src = post.autor.urlAvatar;
+                        
+                        const tituloPost = document.getElementById("tituloPost");
+                        tituloPost.textContent = post.titulo + " - Sportify";
 
                         const autorPost = document.getElementById("autorPost");
                         autorPost.textContent = post.autor.nombre;
@@ -123,7 +129,7 @@
                             informacionEncabezado.classList.add("left");
 
                             const fotoComentario = document.createElement("img");
-                            fotoComentario.src = "https://unavatar.io/hiiramsan";
+                            fotoComentario.src = comentario.usuario.urlAvatar;
 
                             const usuarioComentario = document.createElement("a");
                             usuarioComentario.textContent = comentario.usuario.nombre;
