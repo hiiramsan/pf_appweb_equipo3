@@ -20,25 +20,8 @@ public class PostPage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Get post ID from request parameter
             int postId = Integer.parseInt(request.getParameter("id"));
-            System.out.println("retrieving post: " + postId);
-            Fachada fachada = new Fachada();
-            
-            // Get post details
-            Post post = fachada.consultarPost(postId);
-            if (post == null) {
-                response.sendRedirect(request.getContextPath() + "/views/NotFound.jsp");
-                return;
-            }
-            System.out.println("post" + post);
-            // Get comments for this post
-            List<Comentario> comentarios = fachada.obtenerTodosLosComentariosDeUnPost(postId);
-            System.out.println("comentarios: " + comentarios);
-            // Set attributes for the JSP
-            request.setAttribute("post", post);
-            request.setAttribute("comentarios", comentarios);
-            
+            request.setAttribute("postId", postId);
             // Forward to the JSP
             request.getRequestDispatcher("/views/post-page.jsp").forward(request, response);
             

@@ -28,10 +28,21 @@
         <servlet-name>Posts</servlet-name>
         <servlet-class>servlets.Posts</servlet-class>
         <multipart-config>
-            <max-file-size>10485760</max-file-size> <!-- Max file size in bytes (10MB in this case) -->
-            <max-request-size>20971520</max-request-size> <!-- Max request size -->
-            <file-size-threshold>0</file-size-threshold> <!-- Threshold for file upload -->
+            <max-file-size>10485760</max-file-size>
+            <!-- Max file size in bytes (10MB in this case) -->
+            <max-request-size>20971520</max-request-size>
+            <!-- Max request size -->
+            <file-size-threshold>0</file-size-threshold>
+            <!-- Threshold for file upload -->
         </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>PostInfo</servlet-name>
+        <servlet-class>servlets.PostInfo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CommentsInfo</servlet-name>
+        <servlet-class>servlets.CommentsInfo</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>registro</servlet-name>
@@ -72,6 +83,14 @@
     <servlet-mapping>
         <servlet-name>uploadProfilePicture</servlet-name>
         <url-pattern>/uploadProfilePicture</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostInfo</servlet-name>
+        <url-pattern>/postInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CommentsInfo</servlet-name>
+        <url-pattern>/commentsInfo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

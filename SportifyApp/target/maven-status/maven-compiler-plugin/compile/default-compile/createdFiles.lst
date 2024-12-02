@@ -2,12 +2,14 @@ filtros\FiltroAutenticacion.class
 servlets\Registro.class
 servlets\Home.class
 utils\CloudinaryConfig.class
+servlets\CommentsInfo.class
 servlets\Login.class
 servlets\Logout.class
 servlets\PostPage.class
 servlets\Posts.class
 servlets\UploadProfilePicture.class
 com\mycompany\sportifyapp\resources\JakartaEE8Resource.class
+servlets\PostInfo.class
 servlets\DeletePost.class
 servlets\principal.class
 com\mycompany\sportifyapp\JakartaRestConfiguration.class
