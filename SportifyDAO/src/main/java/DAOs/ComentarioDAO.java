@@ -115,7 +115,7 @@ public class ComentarioDAO implements IComentarioDAO {
 public List<Comentario> obtenerTodosLosComentariosDeUnPost(int idComentado) {
     try {
         Query query = em.createNativeQuery(
-                "SELECT * FROM comentario WHERE id_comentado = 1 ORDER BY fechahora DESC", 
+                "SELECT * FROM comentario WHERE id_comentado =" + idComentado + " ORDER BY fechahora DESC", 
                 Comentario.class);
         query.setParameter("idComentado", idComentado);
         return query.getResultList();
