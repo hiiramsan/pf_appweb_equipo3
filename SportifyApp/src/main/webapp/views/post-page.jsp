@@ -28,7 +28,7 @@
                         </div>
 
                     </div>
-                    <h1>${post.titulo}</h1>
+                    <h1 id="titulo-publicacion">${post.titulo}</h1>
                     <img src="${post.foto}" alt="" class="post-img">
                     <p id="contenidoPost">
                         ${post.contenido} 
@@ -60,7 +60,7 @@
             const idDelPost = document.getElementById("idPostActual");
 
 
-            const urlPost = "postInfo?id=" + idDelPost.value; // Cambiar por el nombre del mapping del Servlet
+            const urlPost = "postInfo?id=" + idDelPost.value;
 
 
 
@@ -85,6 +85,9 @@
 
                         const imagenPost = document.getElementsByClassName("post-img")[0];
                         imagenPost.src = post.foto;
+                        
+                        const tituloPublicacion = document.getElementById("titulo-publicacion");
+                        tituloPublicacion.innerText = post.titulo;
 
                         const contenidoPost = document.getElementById("contenidoPost");
                         contenidoPost.textContent = post.contenido;
@@ -103,7 +106,7 @@
 
 
 
-            const urlComentarios = "commentsInfo?id=" + idDelPost.value; // Cambiar por el nombre del mapping del Servlet
+            const urlComentarios = "commentsInfo?id=" + idDelPost.value;
 
             // Realizar la petición
             fetch(urlComentarios)
