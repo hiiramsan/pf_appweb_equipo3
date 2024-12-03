@@ -8,6 +8,7 @@ import control.Fachada;
 import dominio.Post;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,13 +43,19 @@ public class Home extends HttpServlet {
             List<Post> posts = fachada.obtenerTodosLosPosts();
             
             System.out.println("Number of posts retrieved: " + posts.size());
-            System.out.println("posts retrieved: " + posts);            
+            System.out.println("posts retrieved: " + posts);
+            
+            List<Post> postsNoFijados = new ArrayList<>();
             
             for (Post p : posts) {
                 System.out.println(p.getTitulo());
                 System.out.println(p.getIdPost());
+                if (!p.isIsAnclado()) {
+                    postsNoFijados.add(p);
+                }
             }
-            request.setAttribute("posts", posts);
+            
+            request.setAttribute("posts", postsNoFijados);
             request.getRequestDispatcher("/views/index.jsp").forward(request, response);
         } catch (Exception e) {
             System.out.println("ocurrio un error");

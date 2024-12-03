@@ -61,8 +61,8 @@
 
 
             const urlPost = "postInfo?id=" + idDelPost.value; // Cambiar por el nombre del mapping del Servlet
-            
-            
+
+
 
             // Realizar la petición
             fetch(urlPost)
@@ -73,19 +73,19 @@
                         return response.json();
                     })
                     .then(post => {
-                        
+
                         const avatarAutor = document.getElementById("avatarAutor");
                         avatarAutor.src = post.autor.urlAvatar;
-                        
+
                         const tituloPost = document.getElementById("tituloPost");
                         tituloPost.textContent = post.titulo + " - Sportify";
 
                         const autorPost = document.getElementById("autorPost");
                         autorPost.textContent = post.autor.nombre;
-                        
+
                         const imagenPost = document.getElementsByClassName("post-img")[0];
                         imagenPost.src = post.foto;
-                        
+
                         const contenidoPost = document.getElementById("contenidoPost");
                         contenidoPost.textContent = post.contenido;
 

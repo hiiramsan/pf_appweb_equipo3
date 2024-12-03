@@ -20,6 +20,14 @@
             <main>
                 <c:if test="${not empty posts}">
                     <div class="posts">
+                        <div id="contenedor-posts-anclados">
+
+                        </div>
+
+                        <br>
+                        <hr>
+                        <br>
+
                         <c:forEach var="post" items="${posts}">
                             <c:if test="${usuario.rol == 'ADMIN'}">
                                 <button class="delete-post-button" data-post-id="${post.idPost}">Eliminar post</button>
@@ -30,16 +38,21 @@
                                         <img src="${post.autor.urlAvatar}" alt="Profile Picture" />
                                         <p>${post.autor.nombre}</p>
                                         <p class="light-gray">• <fmt:formatDate value="${post.fechaHoraCreacion.time}" pattern="dd/MM/yyyy"/></p>
+
+                                        <c:if test="${usuario.rol == 'ADMIN'}">
+                                            <button>Fijar</button>
+                                        </c:if>
+
                                     </header>
                                     <section class="content">
                                         <div class="left">
                                             <h2>${post.titulo}</h2>
-                                        <p class="light-gray">
-                                            ${post.contenido}
-                                        </p>
+                                            <p class="light-gray">
+                                                ${post.contenido}
+                                            </p>
                                         </div>
                                         <div class="right">
-                                        <img src="${post.foto}" alt="img post" />
+                                            <img src="${post.foto}" alt="img post" />
                                         </div>
                                     </section>
                                 </article>
@@ -123,48 +136,131 @@
         </div>
 
         <script>
-            class PostManager {
-                constructor() {
-                    this.deleteButtons = document.querySelectorAll('.delete-post-button');
-                    this.init();
-                }
-                init() {
-                    this.deleteButtons.forEach(button => {
-                        button.addEventListener('click', this.confirmDelete.bind(this));
-                    });
-                }
-                async confirmDelete(event) {
-                    event.preventDefault();
-                    const postId = event.target.dataset.postId;
 
-                    // Confirmar con el usuario
-                    const userConfirmed = confirm('¿Estás seguro de que quieres eliminar este post?');
-                    if (!userConfirmed) return;
 
-                    try {
-                        const response = await fetch('/principal', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: new URLSearchParams({
-                                postId: postId,
-                            }),
-                        });
-
-                        const data = await response.json();
-                        if (data.status === 'success') {
-                            alert(data.message);
-                            event.target.closest('article').remove();
-                        } else {
-                            alert(data.message);
+            // Realizar la petición para obtener los posts fijados
+            fetch("postsAnclados")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Error en la petición: ${response.status}`);
                         }
-                    } catch (error) {
-                        alert('Hubo un error al intentar eliminar el post.');
+                        return response.json();
+                    })
+                    .then(data => {
+
+                        const postsAnclados = document.getElementById("contenedor-posts-anclados");
+
+                        data.forEach(postAnclado => {
+
+                            const enlacePost = document.createElement("a");
+                            const idPostAnclado = postAnclado.idPost;
+                            enlacePost.href = "${pageContext.request.contextPath}/postpage?id=" + idPostAnclado;
+                            postsAnclados.appendChild(enlacePost);
+
+                            const articulo = document.createElement("article");
+                            articulo.classList.add("post");
+                            articulo.classList.add("normal-post");
+                            enlacePost.appendChild(articulo);
+
+                            const encabezado = document.createElement("header");
+                            articulo.appendChild(encabezado);
+                            const avatarUsuario = document.createElement("img");
+                            avatarUsuario.src = postAnclado.autor.urlAvatar;
+                            encabezado.appendChild(avatarUsuario);
+                            const nombreAutor = document.createElement("p");
+                            nombreAutor.textContent = postAnclado.autor.nombre;
+                            encabezado.appendChild(nombreAutor);
+                            const fechaPublicacion = document.createElement("p");
+                            const diaPublicacion = postAnclado.fechaHoraCreacion.dayOfMonth;
+                            const mesPublicacion = postAnclado.fechaHoraCreacion.month;
+                            const anioPublicacion = postAnclado.fechaHoraCreacion.year;
+                            fechaPublicacion.textContent = diaPublicacion + "/" + mesPublicacion + "/" + anioPublicacion;
+                            fechaPublicacion.classList.add("light-gray");
+                            encabezado.append(fechaPublicacion);
+                            const indiceAnclado = document.createElement("p");
+                            indiceAnclado.textContent = "ANCLADO";
+                            encabezado.appendChild(indiceAnclado);
+                            
+                            const seccion = document.createElement("section");
+                            seccion.classList.add("content");
+                            articulo.appendChild(seccion);
+                            const contenidoIzquierdo = document.createElement("div");
+                            contenidoIzquierdo.classList.add("left");
+                            seccion.appendChild(contenidoIzquierdo);
+                            const tituloPostAnclado = document.createElement("h2");
+                            tituloPostAnclado.innerText = postAnclado.titulo;
+                            contenidoIzquierdo.appendChild(tituloPostAnclado);
+                            const parrafoPost = document.createElement("p");
+                            parrafoPost.classList.add("light-gray");
+                            parrafoPost.textContent = postAnclado.contenido;
+                            contenidoIzquierdo.appendChild(parrafoPost);
+                            const contenidoDerecho = document.createElement("div");
+                            contenidoDerecho.classList.add("right");
+                            seccion.appendChild(contenidoDerecho);
+                            const imagenPostAnclado = document.createElement("img");
+                            imagenPostAnclado.src = postAnclado.foto;
+                            contenidoDerecho.appendChild(imagenPostAnclado);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Hubo un error:", error);
+                    });
+
+
+
+            const formatearFecha = (date) => {
+                const dia = String(date.getDate()).padStart(2, '0');
+                const mes = String(date.getMonth() + 1).padStart(2, '0');
+                const anio = date.getFullYear();
+
+                return `${dia}/${mes}/${anio}`;
+                    };
+
+
+
+                    class PostManager {
+                        constructor() {
+                            this.deleteButtons = document.querySelectorAll('.delete-post-button');
+                            this.init();
+                        }
+                        init() {
+                            this.deleteButtons.forEach(button => {
+                                button.addEventListener('click', this.confirmDelete.bind(this));
+                            });
+                        }
+                        async confirmDelete(event) {
+                            event.preventDefault();
+                            const postId = event.target.dataset.postId;
+
+                            // Confirmar con el usuario
+                            const userConfirmed = confirm('¿Estás seguro de que quieres eliminar este post?');
+                            if (!userConfirmed)
+                                return;
+
+                            try {
+                                const response = await fetch('/principal', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                    },
+                                    body: new URLSearchParams({
+                                        postId: postId,
+                                    }),
+                                });
+
+                                const data = await response.json();
+                                if (data.status === 'success') {
+                                    alert(data.message);
+                                    event.target.closest('article').remove();
+                                } else {
+                                    alert(data.message);
+                                }
+                            } catch (error) {
+                                alert('Hubo un error al intentar eliminar el post.');
+                            }
+                        }
                     }
-                }
-            }
-            document.addEventListener('DOMContentLoaded', () => new PostManager());
+                    document.addEventListener('DOMContentLoaded', () => new PostManager());
         </script>
     </body>
 </html>

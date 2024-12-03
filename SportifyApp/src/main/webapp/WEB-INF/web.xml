@@ -44,6 +44,10 @@
         <servlet-name>CommentsInfo</servlet-name>
         <servlet-class>servlets.CommentsInfo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PostsAnclados</servlet-name>
+        <servlet-class>servlets.PostsAnclados</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>registro</servlet-name>
         <url-pattern>/registro</url-pattern>
@@ -91,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>CommentsInfo</servlet-name>
         <url-pattern>/commentsInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostsAnclados</servlet-name>
+        <url-pattern>/postsAnclados</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
