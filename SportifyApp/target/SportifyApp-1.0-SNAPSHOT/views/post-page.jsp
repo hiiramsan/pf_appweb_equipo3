@@ -61,7 +61,7 @@
             const idDelPost = document.getElementById("idPostActual");
 
 
-            const urlPost = "postInfo?id=" + idDelPost.value; // Cambiar por el nombre del mapping del Servlet
+            const urlPost = "postInfo?id=" + idDelPost.value;
 
 
 
@@ -77,10 +77,10 @@
                         console.log("Raw date received:", post.fechaHoraCreacion);
                         if (post.fechaHoraCreacion) {
                             const dateComponents = post.fechaHoraCreacion;
-                            // Note: JavaScript months are 0-based, so we subtract 1 from the month
+                            
                             const dateObj = new Date(
                                     dateComponents.year,
-                                    dateComponents.month - 1, // Subtract 1 from month
+                                    dateComponents.month - 1,
                                     dateComponents.dayOfMonth,
                                     dateComponents.hourOfDay,
                                     dateComponents.minute,
@@ -125,7 +125,7 @@
 
 
 
-            const urlComentarios = "commentsInfo?id=" + idDelPost.value; // Cambiar por el nombre del mapping del Servlet
+            const urlComentarios = "commentsInfo?id=" + idDelPost.value;
 
             // Realizar la petición
             fetch(urlComentarios)

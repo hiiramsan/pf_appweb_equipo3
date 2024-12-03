@@ -18,11 +18,15 @@
         <%@ include file="../fragments/Header.jsp" %>
         <div class="content-wrapper">
             <main>
-                <c:if test="${not empty posts}">
-                    <div class="posts">
-                        <div id="contenedor-posts-anclados">
 
-                        </div>
+                <div id="contenedor-posts-anclados">
+
+                </div>
+
+                <c:if test="${not empty posts}">
+
+                    <div class="posts">
+
                         <hr>
                         <br>
 
@@ -136,85 +140,113 @@
 
                 // PETICIÓN PARA MOSTRAR EN PANTALLA LOS POSTS ANCLADOS POR EL ADMINISTRADOR
                 fetch("postsAnclados")
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`Error en la petición: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        const postsAnclados = document.getElementById("contenedor-posts-anclados");
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Error en la petición: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
 
-                        data.forEach(postAnclado => {
-                            const enlacePost = document.createElement("a");
-                            const idPostAnclado = postAnclado.idPost;
-                            enlacePost.href = "${pageContext.request.contextPath}/postpage?id=" + idPostAnclado;
-                            postsAnclados.appendChild(enlacePost);
+                            const postsAnclados = document.getElementById("contenedor-posts-anclados");
 
-                            const articulo = document.createElement("article");
-                            articulo.classList.add("post", "normal-post");
-                            enlacePost.appendChild(articulo);
+                            data.forEach(postAnclado => {
 
-                            const encabezado = document.createElement("header");
-                            articulo.appendChild(encabezado);
-                            const avatarUsuario = document.createElement("img");
-                            avatarUsuario.src = postAnclado.autor.urlAvatar;
-                            encabezado.appendChild(avatarUsuario);
+                                if (${usuario.rol == 'ADMIN'}) {
+                                    console.log("El usuario es admin");
+                                    const botonQuitarAnclaje = document.createElement("button");
+                                    botonQuitarAnclaje.innerText = "Desanclar";
+                                    botonQuitarAnclaje.setAttribute("data-anclar-id", postAnclado.idPost);
+                                    botonQuitarAnclaje.classList.add("boton-anclar");
+                                    postsAnclados.appendChild(botonQuitarAnclaje);
+                                } else {
+                                    console.log("El usuario no es admin");
+                                }
 
-                            const nombreAutor = document.createElement("p");
-                            nombreAutor.textContent = postAnclado.autor.nombre;
-                            encabezado.appendChild(nombreAutor);
+                                const enlacePost = document.createElement("a");
+                                const idPostAnclado = postAnclado.idPost;
+                                enlacePost.href = "${pageContext.request.contextPath}/postpage?id=" + idPostAnclado;
+                                postsAnclados.appendChild(enlacePost);
 
-                            const fechaPublicacion = document.createElement("p");
-                            const { dayOfMonth, month, year } = postAnclado.fechaHoraCreacion;
-                            fechaPublicacion.textContent = `• ${dayOfMonth}/${month}/${year}`;
-                            fechaPublicacion.classList.add("light-gray");
-                            encabezado.append(fechaPublicacion);
+                                const articulo = document.createElement("article");
+                                articulo.classList.add("post");
+                                articulo.classList.add("normal-post");
+                                enlacePost.appendChild(articulo);
 
-                            const indiceAnclado = document.createElement("p");
-                            indiceAnclado.textContent = "ANCLADO";
-                            encabezado.appendChild(indiceAnclado);
+                                const encabezado = document.createElement("header");
+                                articulo.appendChild(encabezado);
+                                const avatarUsuario = document.createElement("img");
+                                avatarUsuario.src = postAnclado.autor.urlAvatar;
+                                encabezado.appendChild(avatarUsuario);
+                                const nombreAutor = document.createElement("p");
+                                nombreAutor.textContent = postAnclado.autor.nombre;
+                                encabezado.appendChild(nombreAutor);
+                                const fechaPublicacion = document.createElement("p");
+                                const diaPublicacion = postAnclado.fechaHoraCreacion.dayOfMonth;
+                                const mesPublicacion = postAnclado.fechaHoraCreacion.month;
+                                const anioPublicacion = postAnclado.fechaHoraCreacion.year;
+                                fechaPublicacion.textContent = "• " + diaPublicacion + "/" + mesPublicacion + "/" + anioPublicacion;
+                                fechaPublicacion.classList.add("light-gray");
+                                encabezado.append(fechaPublicacion);
+                                const indiceAnclado = document.createElement("p");
+                                indiceAnclado.textContent = "ANCLADO";
+                                encabezado.appendChild(indiceAnclado);
 
-                            const seccion = document.createElement("section");
-                            seccion.classList.add("content");
-                            articulo.appendChild(seccion);
+                                const seccion = document.createElement("section");
+                                seccion.classList.add("content");
+                                articulo.appendChild(seccion);
+                                const contenidoIzquierdo = document.createElement("div");
+                                contenidoIzquierdo.classList.add("left");
+                                seccion.appendChild(contenidoIzquierdo);
+                                const tituloPostAnclado = document.createElement("h2");
+                                tituloPostAnclado.innerText = postAnclado.titulo;
+                                contenidoIzquierdo.appendChild(tituloPostAnclado);
+                                const parrafoPost = document.createElement("p");
+                                parrafoPost.classList.add("light-gray");
+                                parrafoPost.textContent = postAnclado.contenido;
+                                contenidoIzquierdo.appendChild(parrafoPost);
+                                const contenidoDerecho = document.createElement("div");
+                                contenidoDerecho.classList.add("right");
+                                seccion.appendChild(contenidoDerecho);
+                                const imagenPostAnclado = document.createElement("img");
+                                imagenPostAnclado.src = postAnclado.foto;
+                                contenidoDerecho.appendChild(imagenPostAnclado);
+                                const espacio = document.createElement("br");
+                                enlacePost.appendChild(espacio);
+                            });
 
-                            const contenidoIzquierdo = document.createElement("div");
-                            contenidoIzquierdo.classList.add("left");
-                            seccion.appendChild(contenidoIzquierdo);
 
-                            const tituloPostAnclado = document.createElement("h2");
-                            tituloPostAnclado.innerText = postAnclado.titulo;
-                            contenidoIzquierdo.appendChild(tituloPostAnclado);
 
-                            const parrafoPost = document.createElement("p");
-                            parrafoPost.classList.add("light-gray");
-                            parrafoPost.textContent = postAnclado.contenido;
-                            contenidoIzquierdo.appendChild(parrafoPost);
+                            const botonesAnclarPosts = document.getElementsByClassName("boton-anclar");
 
-                            const contenidoDerecho = document.createElement("div");
-                            contenidoDerecho.classList.add("right");
-                            seccion.appendChild(contenidoDerecho);
+                            console.log(botonesAnclarPosts);
 
-                            const imagenPostAnclado = document.createElement("img");
-                            imagenPostAnclado.src = postAnclado.foto;
-                            contenidoDerecho.appendChild(imagenPostAnclado);
+                            for (let botonAnclar of botonesAnclarPosts) {
+                                botonAnclar.addEventListener("click", anclarPost);
+                                console.log(botonAnclar.getAttribute('data-anclar-id'));
+                            }
+
+
+                        })
+                        .catch(error => {
+                            console.error("Hubo un error:", error);
                         });
-                    })
-                    .catch(error => {
-                        console.error("Hubo un error:", error);
-                    });
+
+
+
+
+
 
                 // FUNCIONALIDAD PARA ANCLAR UN POST
-                const botonesAnclarPosts = document.getElementsByClassName("boton-anclar");
-                for (let botonAnclar of botonesAnclarPosts) {
-                    botonAnclar.addEventListener("click", anclarPost);
-                }
 
-                // Función para anclar un post
                 function anclarPost(evento) {
-                    const jsonData = { postPorAnclarId: evento.target.dataset.anclarId };
 
+                    // Crear un objeto JSON
+                    const jsonData = {
+                        postPorAnclarId: evento.target.dataset.anclarId
+                    };
+
+                    // Enviar la solicitud usando fetch
                     fetch('postsAnclados', {
                         method: 'POST',
                         headers: {
@@ -222,14 +254,16 @@
                         },
                         body: JSON.stringify(jsonData)
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Respuesta del servidor:', data);
-                        alert("Datos enviados exitosamente");
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Respuesta del servidor:', data);
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+
+
                 }
 
                 // Funcionalidad para eliminar un post
@@ -245,23 +279,23 @@
                                     "Content-Type": "application/json"
                                 },
                                 body: JSON.stringify({
-                                    action: "delete", 
+                                    action: "delete",
                                     id: postId
                                 })
                             })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === "success") {
-                                    alert("Post eliminado correctamente.");
-                                    location.reload(); // Recargar la página para reflejar los cambios
-                                } else {
-                                    alert(data.message);
-                                }
-                            })
-                            .catch(error => {
-                                console.error("Error:", error);
-                                alert("Ocurrió un error.");
-                            });
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.status === "success") {
+                                            alert("Post eliminado correctamente.");
+                                            location.reload(); // Recargar la página para reflejar los cambios
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error("Error:", error);
+                                        alert("Ocurrió un error.");
+                                    });
                         }
                     });
                 });
