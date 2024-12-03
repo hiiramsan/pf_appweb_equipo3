@@ -23,14 +23,13 @@
                         <div id="contenedor-posts-anclados">
 
                         </div>
-
-                        <br>
                         <hr>
                         <br>
 
                         <c:forEach var="post" items="${posts}">
                             <c:if test="${usuario.rol == 'ADMIN'}">
                                 <button class="delete-post-button" data-post-id="${post.idPost}">Eliminar post</button>
+                                <button class="boton-anclar" data-anclar-id="${post.idPost}">Fijar</button>
                             </c:if>
                             <a href="${pageContext.request.contextPath}/postpage?id=${post.idPost}">
                                 <article class="post normal-post">
@@ -38,10 +37,6 @@
                                         <img src="${post.autor.urlAvatar}" alt="Profile Picture" />
                                         <p>${post.autor.nombre}</p>
                                         <p class="light-gray">• <fmt:formatDate value="${post.fechaHoraCreacion.time}" pattern="dd/MM/yyyy"/></p>
-
-                                        <c:if test="${usuario.rol == 'ADMIN'}">
-                                            <button>Fijar</button>
-                                        </c:if>
 
                                     </header>
                                     <section class="content">
@@ -57,6 +52,7 @@
                                     </section>
                                 </article>
                             </a>
+                            <br>
                         </c:forEach>
                     </div>
                 </c:if>
@@ -138,7 +134,7 @@
         <script>
 
 
-            // Realizar la petición para obtener los posts fijados
+            // PETICIÓN PARA MOSTRAR EN PANTALLA LOS POSTS ANCLADOS POR EL ADMINISTRADOR
             fetch("postsAnclados")
                     .then(response => {
                         if (!response.ok) {
@@ -174,13 +170,13 @@
                             const diaPublicacion = postAnclado.fechaHoraCreacion.dayOfMonth;
                             const mesPublicacion = postAnclado.fechaHoraCreacion.month;
                             const anioPublicacion = postAnclado.fechaHoraCreacion.year;
-                            fechaPublicacion.textContent = diaPublicacion + "/" + mesPublicacion + "/" + anioPublicacion;
+                            fechaPublicacion.textContent = "• " + diaPublicacion + "/" + mesPublicacion + "/" + anioPublicacion;
                             fechaPublicacion.classList.add("light-gray");
                             encabezado.append(fechaPublicacion);
                             const indiceAnclado = document.createElement("p");
                             indiceAnclado.textContent = "ANCLADO";
                             encabezado.appendChild(indiceAnclado);
-                            
+
                             const seccion = document.createElement("section");
                             seccion.classList.add("content");
                             articulo.appendChild(seccion);
@@ -200,6 +196,8 @@
                             const imagenPostAnclado = document.createElement("img");
                             imagenPostAnclado.src = postAnclado.foto;
                             contenidoDerecho.appendChild(imagenPostAnclado);
+                            const espacio = document.createElement("br");
+                            enlacePost.appendChild(espacio);
                         });
                     })
                     .catch(error => {
@@ -207,60 +205,93 @@
                     });
 
 
+            const botonesAnclarPosts = document.getElementsByClassName("boton-anclar");
 
-            const formatearFecha = (date) => {
-                const dia = String(date.getDate()).padStart(2, '0');
-                const mes = String(date.getMonth() + 1).padStart(2, '0');
-                const anio = date.getFullYear();
-
-                return `${dia}/${mes}/${anio}`;
-                    };
+            for (let botonAnclar of botonesAnclarPosts) {
+                botonAnclar.addEventListener("click", anclarPost);
+                console.log(botonAnclar.dataset.anclarId);
+            }
 
 
 
-                    class PostManager {
-                        constructor() {
-                            this.deleteButtons = document.querySelectorAll('.delete-post-button');
-                            this.init();
+            // FUNCIONALIDAD PARA ANCLAR UN POST
+
+            function anclarPost(evento) {
+            
+                // Crear un objeto JSON con los datos del formulario
+                const jsonData = {
+                    postPorAnclarId: evento.target.dataset.anclarId
+                };
+
+                // Enviar la solicitud usando fetch
+                fetch('postsAnclados', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData)
+                })
+                        .then(response => response.json()) // Procesar la respuesta como JSON (opcional)
+                        .then(data => {
+                            console.log('Respuesta del servidor:', data);
+                            alert("Datos enviados exitosamente");
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+
+            }
+
+
+
+
+
+
+
+            class PostManager {
+                constructor() {
+                    this.deleteButtons = document.querySelectorAll('.delete-post-button');
+                    this.init();
+                }
+                init() {
+                    this.deleteButtons.forEach(button => {
+                        button.addEventListener('click', this.confirmDelete.bind(this));
+                    });
+                }
+                async confirmDelete(event) {
+                    event.preventDefault();
+                    const postId = event.target.dataset.postId;
+
+                    // Confirmar con el usuario
+                    const userConfirmed = confirm('¿Estás seguro de que quieres eliminar este post?');
+                    if (!userConfirmed)
+                        return;
+
+                    try {
+                        const response = await fetch('/principal', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: new URLSearchParams({
+                                postId: postId,
+                            }),
+                        });
+
+                        const data = await response.json();
+                        if (data.status === 'success') {
+                            alert(data.message);
+                            event.target.closest('article').remove();
+                        } else {
+                            alert(data.message);
                         }
-                        init() {
-                            this.deleteButtons.forEach(button => {
-                                button.addEventListener('click', this.confirmDelete.bind(this));
-                            });
-                        }
-                        async confirmDelete(event) {
-                            event.preventDefault();
-                            const postId = event.target.dataset.postId;
-
-                            // Confirmar con el usuario
-                            const userConfirmed = confirm('¿Estás seguro de que quieres eliminar este post?');
-                            if (!userConfirmed)
-                                return;
-
-                            try {
-                                const response = await fetch('/principal', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/x-www-form-urlencoded',
-                                    },
-                                    body: new URLSearchParams({
-                                        postId: postId,
-                                    }),
-                                });
-
-                                const data = await response.json();
-                                if (data.status === 'success') {
-                                    alert(data.message);
-                                    event.target.closest('article').remove();
-                                } else {
-                                    alert(data.message);
-                                }
-                            } catch (error) {
-                                alert('Hubo un error al intentar eliminar el post.');
-                            }
-                        }
+                    } catch (error) {
+                        alert('Hubo un error al intentar eliminar el post.');
                     }
-                    document.addEventListener('DOMContentLoaded', () => new PostManager());
+                }
+            }
+            document.addEventListener('DOMContentLoaded', () => new PostManager());
         </script>
     </body>
 </html>
