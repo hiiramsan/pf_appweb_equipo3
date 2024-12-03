@@ -23,12 +23,12 @@
                     <div class="article-info">
                         <div class="left">
                             <img id="avatarAutor" src="https://unavatar.io/hiiramsan" alt="">
-                            <p>Posted by <a id="autorPost" href="">${post.autor.nombre}</a></p>
-                            <p>• ${formattedDate}</p>
+                            <p>Posted by <a id="autorPost" href="">${post.autor.nombre} •</a></p>
+                            <p id="postDate">• ${formattedDate}</p>
                         </div>
 
                     </div>
-                    <h1>${post.titulo}</h1>
+                    <h1 id="postblog-title">${post.titulo}</h1>
                     <img src="${post.foto}" alt="" class="post-img">
                     <p id="contenidoPost">
                         ${post.contenido} 
@@ -36,10 +36,11 @@
 
                 </article>
                 <section class="comments">
-                    <h2>Comments (${comentarios.size()})</h2>
+                    <h2 >Comments (<span id="commentCount"></span>)</h2>
                     <c:if test="${not empty sessionScope.usuario}">
                         <form action="${pageContext.request.contextPath}/postpage" method="POST">
-                            <textarea class="comment-sender" name="comment-sender" id="comment-sender" placeholder="Leave a comment..." rows="5"></textarea>
+                            <input type="hidden" name="postId" value="${postId}">
+                            <textarea class="comment-sender" name="comentario" id="comment-sender" placeholder="Leave a comment..." rows="5"></textarea>
                             <button type="submit">
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="send-alt" class="icon glyph" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M21.88,4.73,16.2,20.65A2,2,0,0,1,14.3,22h0a2,2,0,0,1-1.9-1.31l-2.12-5.52,1.54-1.54,2.49-2.49a1,1,0,1,0-1.42-1.42l-2.49,2.49L8.82,13.76,3.31,11.63a2,2,0,0,1,0-3.83L19.27,2.12a2,2,0,0,1,2.61,2.61Z"></path></g></svg>
                             </button>
@@ -73,12 +74,33 @@
                         return response.json();
                     })
                     .then(post => {
+                        console.log("Raw date received:", post.fechaHoraCreacion);
+                        if (post.fechaHoraCreacion) {
+                            const dateComponents = post.fechaHoraCreacion;
+                            // Note: JavaScript months are 0-based, so we subtract 1 from the month
+                            const dateObj = new Date(
+                                    dateComponents.year,
+                                    dateComponents.month - 1, // Subtract 1 from month
+                                    dateComponents.dayOfMonth,
+                                    dateComponents.hourOfDay,
+                                    dateComponents.minute,
+                                    dateComponents.second
+                                    );
+
+                            const options = {year: 'numeric', month: 'short', day: 'numeric'};
+                            const formattedDate = dateObj.toLocaleDateString('en-US', options);
+                            const postDate = document.getElementById("postDate");
+                            postDate.textContent = "• " + formattedDate;
+                        }
 
                         const avatarAutor = document.getElementById("avatarAutor");
                         avatarAutor.src = post.autor.urlAvatar;
 
                         const tituloPost = document.getElementById("tituloPost");
                         tituloPost.textContent = post.titulo + " - Sportify";
+
+                        const tituloPostBlog = document.getElementById("postblog-title");
+                        tituloPostBlog.textContent = post.titulo;
 
                         const autorPost = document.getElementById("autorPost");
                         autorPost.textContent = post.autor.nombre;
@@ -114,6 +136,10 @@
                         return response.json();
                     })
                     .then(data => {
+
+                        const commentCount = document.getElementById("commentCount");
+                        commentCount.textContent = data.length;
+
 
                         const contenedorComentarios = document.getElementById("contenedor-comentarios");
 

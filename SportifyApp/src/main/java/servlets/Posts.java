@@ -140,7 +140,7 @@ public class Posts extends HttpServlet {
             fachada.agregarPost(post);
 
             // Redirigir al listado de posts o al menú principal de publicaciones
-            response.sendRedirect(request.getContextPath() + "/views/index.jsp"); // Aquí cambia la ruta si es necesario
+            response.sendRedirect(request.getContextPath() + "/home"); 
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "An error occurred while creating the post");

@@ -98,7 +98,9 @@ nav {
 
 .auth-links img{
     width: 40px;
-    height: auto;
+    height: 40px;
+    object-fit: contain;
+    background: black;
     border-radius: 50%;
 }
 

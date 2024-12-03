@@ -51,7 +51,7 @@ public class Post implements Serializable {
     private Categoria categoria;
     
     public enum Categoria {
-        SOCCER, BASKETBALL, BASEBALL 
+        SOCCER, BASKETBALL, TENNIS, FOOTBALL, VOLLEYBALL, BASEBALL 
     }
     
     @ManyToOne(fetch = FetchType.EAGER)

@@ -73,7 +73,9 @@ main {
 
 .article-info .left img {
     width: 2em;
-    height: auto;
+    height: 2rem;
+    object-fit: contain;
+    background: black;
     border-radius: 50%;
 }
 
@@ -199,7 +201,9 @@ article p {
 
 .comment-head img {
     width: 2em;
-    height: auto;
+    height: 2rem;
+    object-fit: contain;
+    background: black;
     border-radius: 50%;
 }
 

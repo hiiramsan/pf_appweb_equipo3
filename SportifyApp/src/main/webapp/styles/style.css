@@ -191,7 +191,9 @@ a.create-post:hover {
 
 .post header img {
     width: 2em;
-    height: auto;
+    height: 2rem;
+    object-fit: contain;
+    background: black;
     border-radius: 50%;
 }
 
@@ -250,8 +252,9 @@ main a {
 
 .normal-post .content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 1em;
+    align-items: center;
 
 }
 
@@ -259,6 +262,7 @@ main a {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    width: 100%;
 }
 
 .normal-post .content .right img {

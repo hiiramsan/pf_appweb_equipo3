@@ -18,7 +18,7 @@
     <div class="nav-links">
         <ul>
             <li>
-                <a href="/soccer.html">
+                <a href="${pageContext.request.contextPath}/home?sport=soccer">
                     <svg
                         viewBox="0 0 48 48"
                         xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@
                 </a>
             </li>
             <li>
-                <a href="/basketball">
+                <a href="${pageContext.request.contextPath}/home?sport=basketball">
                     <svg
                         viewBox="0 0 48 48"
                         xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +105,7 @@
                 </a>
             </li>
             <li>
-                <a href="/baseball">
+                <a href="${pageContext.request.contextPath}/home?sport=baseball">
                     <svg
                         viewBox="0 0 48 48"
                         xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +134,7 @@
                 </a>
             </li>
             <li>
-                <a href="/american">
+                <a href="${pageContext.request.contextPath}/home?sport=football">
                     <svg
                         height="200px"
                         width="200px"
@@ -180,7 +180,7 @@
                 </a>
             </li>
             <li>
-                <a href="/tennis">
+                <a href="${pageContext.request.contextPath}/home?sport=tennis">
                     <svg
                         height="200px"
                         width="200px"
@@ -221,7 +221,7 @@
                 </a>
             </li>
             <li>
-                <a href="/volleyball">
+                <a href="${pageContext.request.contextPath}/home?sport=volleyball">
                     <svg
                         height="200px"
                         width="200px"

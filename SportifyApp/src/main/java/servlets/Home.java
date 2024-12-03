@@ -44,16 +44,27 @@ public class Home extends HttpServlet {
             
             System.out.println("Number of posts retrieved: " + posts.size());
             System.out.println("posts retrieved: " + posts);
+            String sportParam = request.getParameter("sport");
             
             List<Post> postsNoFijados = new ArrayList<>();
             
             for (Post p : posts) {
-                System.out.println(p.getTitulo());
-                System.out.println(p.getIdPost());
-                if (!p.isIsAnclado()) {
+            System.out.println(p.getTitulo());
+            System.out.println(p.getIdPost());
+            
+            // If sport parameter exists, filter by category
+            if (!p.isIsAnclado()) {
+                if (sportParam != null && !sportParam.isEmpty()) {
+                    // Assuming the categoria is stored in uppercase and matches the parameter
+                    if (p.getCategoria().toString().equalsIgnoreCase(sportParam)) {
+                        postsNoFijados.add(p);
+                    }
+                } else {
+                    // If no sport parameter, add all non-fixed posts as before
                     postsNoFijados.add(p);
                 }
             }
+        }
             
             request.setAttribute("posts", postsNoFijados);
             request.getRequestDispatcher("/views/index.jsp").forward(request, response);
