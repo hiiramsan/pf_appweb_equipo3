@@ -6,6 +6,7 @@ package servlets;
 
 import control.Fachada;
 import dominio.Post;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -64,8 +65,23 @@ public class principal extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            // Obtener el postId del parámetro de la solicitud
-            int postId = Integer.parseInt(request.getParameter("postId"));
+            // Leer el cuerpo de la solicitud como JSON
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = request.getReader().readLine()) != null) {
+                sb.append(line);
+            }
+
+            // Convertir el cuerpo de la solicitud a un objeto JSON
+            JSONObject jsonRequest = new JSONObject(sb.toString());
+
+            // Verificar que el JSON contiene lo que necesitas
+            System.out.println("Acción: " + jsonRequest.getString("action"));
+            System.out.println("ID del post: " + jsonRequest.getInt("id"));
+
+            // Obtener los parámetros del JSON
+            String action = jsonRequest.getString("action");
+            int postId = jsonRequest.getInt("id");
 
             Fachada fachada = new Fachada();
             Post post = fachada.consultarPost(postId);
@@ -91,7 +107,6 @@ public class principal extends HttpServlet {
             jsonResponse.put("message", "Error al eliminar el post.");
             response.getWriter().write(jsonResponse.toString());
         }
-    
     }
 
     /**

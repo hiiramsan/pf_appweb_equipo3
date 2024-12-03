@@ -132,10 +132,10 @@
         </div>
 
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
 
-
-            // PETICIÓN PARA MOSTRAR EN PANTALLA LOS POSTS ANCLADOS POR EL ADMINISTRADOR
-            fetch("postsAnclados")
+                // PETICIÓN PARA MOSTRAR EN PANTALLA LOS POSTS ANCLADOS POR EL ADMINISTRADOR
+                fetch("postsAnclados")
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`Error en la petición: ${response.status}`);
@@ -143,19 +143,16 @@
                         return response.json();
                     })
                     .then(data => {
-
                         const postsAnclados = document.getElementById("contenedor-posts-anclados");
 
                         data.forEach(postAnclado => {
-
                             const enlacePost = document.createElement("a");
                             const idPostAnclado = postAnclado.idPost;
                             enlacePost.href = "${pageContext.request.contextPath}/postpage?id=" + idPostAnclado;
                             postsAnclados.appendChild(enlacePost);
 
                             const articulo = document.createElement("article");
-                            articulo.classList.add("post");
-                            articulo.classList.add("normal-post");
+                            articulo.classList.add("post", "normal-post");
                             enlacePost.appendChild(articulo);
 
                             const encabezado = document.createElement("header");
@@ -163,16 +160,17 @@
                             const avatarUsuario = document.createElement("img");
                             avatarUsuario.src = postAnclado.autor.urlAvatar;
                             encabezado.appendChild(avatarUsuario);
+
                             const nombreAutor = document.createElement("p");
                             nombreAutor.textContent = postAnclado.autor.nombre;
                             encabezado.appendChild(nombreAutor);
+
                             const fechaPublicacion = document.createElement("p");
-                            const diaPublicacion = postAnclado.fechaHoraCreacion.dayOfMonth;
-                            const mesPublicacion = postAnclado.fechaHoraCreacion.month;
-                            const anioPublicacion = postAnclado.fechaHoraCreacion.year;
-                            fechaPublicacion.textContent = "• " + diaPublicacion + "/" + mesPublicacion + "/" + anioPublicacion;
+                            const { dayOfMonth, month, year } = postAnclado.fechaHoraCreacion;
+                            fechaPublicacion.textContent = `• ${dayOfMonth}/${month}/${year}`;
                             fechaPublicacion.classList.add("light-gray");
                             encabezado.append(fechaPublicacion);
+
                             const indiceAnclado = document.createElement("p");
                             indiceAnclado.textContent = "ANCLADO";
                             encabezado.appendChild(indiceAnclado);
@@ -180,118 +178,94 @@
                             const seccion = document.createElement("section");
                             seccion.classList.add("content");
                             articulo.appendChild(seccion);
+
                             const contenidoIzquierdo = document.createElement("div");
                             contenidoIzquierdo.classList.add("left");
                             seccion.appendChild(contenidoIzquierdo);
+
                             const tituloPostAnclado = document.createElement("h2");
                             tituloPostAnclado.innerText = postAnclado.titulo;
                             contenidoIzquierdo.appendChild(tituloPostAnclado);
+
                             const parrafoPost = document.createElement("p");
                             parrafoPost.classList.add("light-gray");
                             parrafoPost.textContent = postAnclado.contenido;
                             contenidoIzquierdo.appendChild(parrafoPost);
+
                             const contenidoDerecho = document.createElement("div");
                             contenidoDerecho.classList.add("right");
                             seccion.appendChild(contenidoDerecho);
+
                             const imagenPostAnclado = document.createElement("img");
                             imagenPostAnclado.src = postAnclado.foto;
                             contenidoDerecho.appendChild(imagenPostAnclado);
-                            const espacio = document.createElement("br");
-                            enlacePost.appendChild(espacio);
                         });
                     })
                     .catch(error => {
                         console.error("Hubo un error:", error);
                     });
 
-
-            const botonesAnclarPosts = document.getElementsByClassName("boton-anclar");
-
-            for (let botonAnclar of botonesAnclarPosts) {
-                botonAnclar.addEventListener("click", anclarPost);
-                console.log(botonAnclar.dataset.anclarId);
-            }
-
-
-
-            // FUNCIONALIDAD PARA ANCLAR UN POST
-
-            function anclarPost(evento) {
-            
-                // Crear un objeto JSON con los datos del formulario
-                const jsonData = {
-                    postPorAnclarId: evento.target.dataset.anclarId
-                };
-
-                // Enviar la solicitud usando fetch
-                fetch('postsAnclados', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(jsonData)
-                })
-                        .then(response => response.json()) // Procesar la respuesta como JSON (opcional)
-                        .then(data => {
-                            console.log('Respuesta del servidor:', data);
-                            alert("Datos enviados exitosamente");
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-
-
-            }
-
-
-
-
-
-
-
-            class PostManager {
-                constructor() {
-                    this.deleteButtons = document.querySelectorAll('.delete-post-button');
-                    this.init();
+                // FUNCIONALIDAD PARA ANCLAR UN POST
+                const botonesAnclarPosts = document.getElementsByClassName("boton-anclar");
+                for (let botonAnclar of botonesAnclarPosts) {
+                    botonAnclar.addEventListener("click", anclarPost);
                 }
-                init() {
-                    this.deleteButtons.forEach(button => {
-                        button.addEventListener('click', this.confirmDelete.bind(this));
+
+                // Función para anclar un post
+                function anclarPost(evento) {
+                    const jsonData = { postPorAnclarId: evento.target.dataset.anclarId };
+
+                    fetch('postsAnclados', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(jsonData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Respuesta del servidor:', data);
+                        alert("Datos enviados exitosamente");
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                     });
                 }
-                async confirmDelete(event) {
-                    event.preventDefault();
-                    const postId = event.target.dataset.postId;
 
-                    // Confirmar con el usuario
-                    const userConfirmed = confirm('¿Estás seguro de que quieres eliminar este post?');
-                    if (!userConfirmed)
-                        return;
+                // Funcionalidad para eliminar un post
+                const deleteButtons = document.querySelectorAll(".delete-post-button");
+                deleteButtons.forEach(button => {
+                    button.addEventListener("click", function () {
+                        const postId = this.getAttribute("data-post-id");
 
-                    try {
-                        const response = await fetch('/principal', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: new URLSearchParams({
-                                postId: postId,
-                            }),
-                        });
-
-                        const data = await response.json();
-                        if (data.status === 'success') {
-                            alert(data.message);
-                            event.target.closest('article').remove();
-                        } else {
-                            alert(data.message);
+                        if (confirm("¿Estás seguro de que deseas eliminar este post?")) {
+                            fetch(`${pageContext.request.contextPath}/principal`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    action: "delete", 
+                                    id: postId
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === "success") {
+                                    alert("Post eliminado correctamente.");
+                                    location.reload(); // Recargar la página para reflejar los cambios
+                                } else {
+                                    alert(data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                                alert("Ocurrió un error.");
+                            });
                         }
-                    } catch (error) {
-                        alert('Hubo un error al intentar eliminar el post.');
-                    }
-                }
-            }
-            document.addEventListener('DOMContentLoaded', () => new PostManager());
+                    });
+                });
+            });
         </script>
     </body>
 </html>
